@@ -1,0 +1,5 @@
+cms_xut_homepage:
+    pattern:  /
+    defaults: { _controller: CmsXutBundle:Default:index }
+    requirements:
+      _method:  GET

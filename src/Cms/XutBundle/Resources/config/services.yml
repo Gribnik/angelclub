@@ -1,0 +1,7 @@
+parameters:
+#    cms_xut.example.class: Cms\XutBundle\Example
+
+services:
+#    cms_xut.example:
+#        class: %cms_xut.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

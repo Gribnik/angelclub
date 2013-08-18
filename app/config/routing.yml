@@ -1,0 +1,4 @@
+cms_xut:
+    resource: "@CmsXutBundle/Resources/config/routing.yml"
+    prefix:   /
+
