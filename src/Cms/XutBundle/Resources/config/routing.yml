@@ -3,3 +3,15 @@ cms_xut_homepage:
     defaults: { _controller: CmsXutBundle:Default:index }
     requirements:
       _method:  GET
+
+admin_area:
+    pattern: /locomotive
+    defaults: { _controller: CmsXutBundle:Admin:index }
+    requirements:
+
+login:
+    pattern:   /locomotive/login
+    defaults:  { _controller: CmsXutBundle:Security:login }
+
+login_check:
+    pattern:   /locomotive/login_check
