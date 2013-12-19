@@ -2,7 +2,10 @@
 
 namespace Cms\XutBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Cms\XutBundle\Entity\Config;
+use Cms\XutBundle\Entity\Repository\ConfigRepository;
+use Doctrine\ORM\EntityManager;
 
 class ConfigCabinet
 {
@@ -16,12 +19,15 @@ class ConfigCabinet
         $this->_entityManager = $entityManager;
     }
 
-
     protected function _getConfigSet()
     {
         if (1 > count($this->_config)) {
-            $this->_config = $this->_entityManager->getRepository('CmsXutBundle:Config')
-                ->loadConfigByNode($this->_loadNodes);
+            $configCollection = $this->_entityManager->getRepository('CmsXutBundle:Config')
+                ->findAll();
+            foreach ($configCollection as $_configRecord) {
+                $configPath = explode('/', $_configRecord->getNode());
+                $this->_config[$configPath[0]][$configPath[1]] = $_configRecord;
+            }
         }
 
         return $this->_config;

@@ -16,15 +16,7 @@ class Config
      */
     private $id;
     /**
-     * @ORM\Column(name="title_id", type="string", length=30)
-     */
-    private $titleId; /* TODO: add index */
-    /**
-     * @ORM\Column(name="type", type="string", length=10)
-     */
-    private $type;
-    /**
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="node", type="string", length=30)
      */
     private $node;
     /**
@@ -47,49 +39,26 @@ class Config
     }
 
     /**
-     * Set titleId
+     * Set node
      *
-     * @param string $titleId
+     * @param string $node
      * @return Config
      */
-    public function setTitleId($titleId)
+    public function setNode($node)
     {
-        $this->titleId = $titleId;
+        $this->node = $node;
     
         return $this;
     }
 
     /**
-     * Get titleId
+     * Get node
      *
      * @return string 
      */
-    public function getTitleId()
+    public function getNode()
     {
-        return $this->titleId;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return Config
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-    
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->type;
+        return $this->node;
     }
 
     /**

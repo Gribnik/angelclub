@@ -1,9 +1,14 @@
 parameters:
     cms_gist_loader.class: Cms\XutBundle\GistLoader
-    cms_config_cabinet.class: Cms\XutBundle\ConfigCabinet
+    cms_config_cabinet.class: Cms\XutBundle\DependencyInjection\ConfigCabinet
+    session_processor.class: Cms\XutBundle\DependencyInjection\Backpack
 
 services:
     gist_loader:
         class: %cms_gist_loader.class%
-    config_cabinet:
+    config:
         class: %cms_config_cabinet.class%
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+    backpack:
+        class: %session_processor.class%

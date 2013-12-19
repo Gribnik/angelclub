@@ -6,4 +6,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class CmsXutBundle extends Bundle
 {
+    public function boot()
+    {
+
+    }
 }
