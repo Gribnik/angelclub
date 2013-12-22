@@ -220,4 +220,27 @@ class User implements UserInterface, \Serializable
     {
         return $this->isActive;
     }
+
+    /**
+     * Add roles
+     *
+     * @param \Cms\XutBundle\Entity\Role $roles
+     * @return User
+     */
+    public function addRole(\Cms\XutBundle\Entity\Role $roles)
+    {
+        $this->roles[] = $roles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param \Cms\XutBundle\Entity\Role $roles
+     */
+    public function removeRole(\Cms\XutBundle\Entity\Role $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
 }

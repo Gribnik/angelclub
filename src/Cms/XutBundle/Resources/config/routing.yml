@@ -15,3 +15,27 @@ login:
 
 login_check:
     pattern:   /locomotive/login_check
+
+post_new:
+    pattern: /editpost/
+    defaults: { _controller: CmsXutBundle:Blog:edit }
+    requirements:
+        _method: GET
+
+post_edit:
+    pattern: /editpost/{post_id}
+    defaults: { _controller: CmsXutBundle:Blog:edit }
+    requirements:
+        _method: GET
+
+post_create:
+    pattern: /savepost/
+    defaults: { _controller: CmsXutBundle:Blog:save }
+    requirements:
+        _method: POST
+
+post_update:
+    pattern: /savepost/{post_id}
+    defaults: { _controller: CmsXutBundle:Blog:save }
+    requirements:
+        _method: POST

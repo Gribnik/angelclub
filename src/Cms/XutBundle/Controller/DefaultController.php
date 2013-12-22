@@ -33,7 +33,7 @@ class DefaultController extends Controller
     public function createUserAndRoleTest()
     {
         $em = $this->getDoctrine()->getManager();
-        $user = new User();
+        /*$user = new User();
         $user->setUsername('enarc')
             ->setIsActive(true)
             ->setEmail('enarc@atwix.com');
@@ -45,7 +45,9 @@ class DefaultController extends Controller
         $user->setPassword($password);
 
         $em->persist($user);
-        $em->flush();
+        $em->flush();*/
+
+
 
     }
 }
