@@ -1,13 +1,37 @@
+<!-- app/Resources/views/base.html.twig -->
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset=utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block stylesheets %}
+        <link href="{{ asset('css/screen.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+
+<section id="wrapper">
+    <header id="header">
+        <div class="top">
+            {% block admin_toolbar %} {% endblock %}
+        </div>
+    </header>
+
+    <section class="main-col">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    </section>
+
+    <div id="footer">
+        {% block footer %}
+            Footer
+        {% endblock %}
+    </div>
+</section>
+
+{% block javascripts %}{% endblock %}
+</body>
 </html>

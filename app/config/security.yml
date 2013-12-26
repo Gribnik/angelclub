@@ -15,14 +15,15 @@ security:
                entity: { class: CmsXutBundle:User }
 
     firewalls:
-           admin_login:
-               pattern: ^/locomotive/login$
-               anonymous: ~
-           admin_area:
-               pattern:    ^/locomotive
+           main:
+               pattern:    ^/
                form_login:
                   login_path: /locomotive/login
                   check_path: /locomotive/login_check
                   provider: administrators
+               logout:
+                  path:   /locomotive/logout
+                  target: /
+               anonymous: ~
     access_control:
       #     - { path: ^/locomotive, roles: ROLE_ADMIN }

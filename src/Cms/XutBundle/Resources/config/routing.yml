@@ -16,6 +16,9 @@ login:
 login_check:
     pattern:   /locomotive/login_check
 
+logout:
+    pattern:  /locomotive/logout
+
 post_new:
     pattern: /editpost/
     defaults: { _controller: CmsXutBundle:Blog:edit }
@@ -39,3 +42,10 @@ post_update:
     defaults: { _controller: CmsXutBundle:Blog:save }
     requirements:
         _method: POST
+
+post_remove:
+    pattern: /removepost/{post_id}
+    defaults: { _controller: CmsXutBundle:Blog:remove }
+    requirements:
+        _method: GET
+        post_id: \d+

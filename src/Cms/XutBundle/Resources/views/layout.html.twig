@@ -1,0 +1,6 @@
+{% extends '::base.html.twig' %}
+{% block admin_toolbar %}
+    {% if is_granted('ROLE_ADMIN') %}
+         {{ include("CmsXutBundle:Admin:toolbar.html.twig") }}
+    {% endif %}
+{% endblock %}

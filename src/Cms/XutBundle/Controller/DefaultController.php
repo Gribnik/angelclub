@@ -11,22 +11,6 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        //$em = $this->getDoctrine()->getManager();
-
-        /** @var ConfigCabinet $config */
-        //$config = $this->get('config', $em);
-        //$value = $config->getConfig('general/test30424');
-        //die(var_dump($value));
-        /*$config = new Config();
-        $config->setName('test' . rand(0, 99999))
-            ->setNode('general/test' . rand(0, 99999))
-            ->setValue('testvalue1');
-        $em->persist($config);
-        $em->flush();*/
-
-        $this->createUserAndRoleTest();
-
-
         return $this->render('CmsXutBundle:Default:index.html.twig');
     }
 

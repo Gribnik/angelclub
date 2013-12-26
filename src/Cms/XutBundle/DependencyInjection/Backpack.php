@@ -4,6 +4,7 @@ namespace Cms\XutBundle\DependencyInjection;
 
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Operate with different session data
@@ -16,13 +17,23 @@ class Backpack
     private $_session;
     private $_contentFilters;
 
-    public function __construct() {
+    /*public function __construct() {
         $this->_session = new Session();
         $this->_session->start();
+    }*/
+
+    public function sendJsonResponse($text, $status='success')
+    {
+        $response = new Response();
+        $jsonContent = array(
+            'text'   => $text,
+            'status' => $status
+        );
+        $response->setContent(json_encode($jsonContent));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
-   public function filterContent($content)
-   {
-       return $content;
-   }
+
 }
