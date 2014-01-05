@@ -14,9 +14,18 @@ class BlogController extends Controller
         //$this->helper = $this->get('backpack');
     }
 
-    public function viewAction()
+    public function viewAction($post_id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('CmsXutBundle:Gist')->findOneById($post_id);
 
+        if (!is_null($post)) {
+            return $this->render('CmsXutBundle:Blog:view.html.twig', array(
+                'post' => $post
+            ));
+        } else {
+            /* TODO: Render 404 page */
+        }
     }
 
     public function listAction()
@@ -45,6 +54,7 @@ class BlogController extends Controller
             } else {
                 $em = $this->getDoctrine()->getManager();
                 $post = $em->getRepository('CmsXutBundle:Gist')->find($post_id);
+                /* TODO: check if post exists */
             }
 
             $form = $this->createForm(new BlogpostType(), $post);

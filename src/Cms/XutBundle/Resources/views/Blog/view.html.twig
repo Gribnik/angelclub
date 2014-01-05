@@ -1,0 +1,17 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+{% block body %}
+    <article class="blog">
+        <h1>{{ post.name }}</h1>
+        <div class="date">
+            <time datetime="{{ post.dateCreated|date('c') }}">
+                {{ post.dateCreated|date('l, F j, Y') }}
+            </time>
+        </div>
+        <div class="content">
+            {{ post.content }}
+        </div>
+    </article>
+    <div class="comments">
+        Comments go here
+    </div>
+{% endblock %}
