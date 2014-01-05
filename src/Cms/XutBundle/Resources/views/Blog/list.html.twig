@@ -1,0 +1,19 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+{% block body %}
+    {% for blog in blogs %}
+        <article class="blog-in-list">
+            <h2><a href="{{ path('post_view', { 'post_id': blog.id })  }}">{{ blog.name }}</a></h2>
+            <div class="date">
+                <time datetime="{{ blog.dateCreated|date('c') }}">
+                    {{ blog.dateCreated|date('l, F j, Y') }}
+                </time>
+            </div>
+            <div class="content">
+                {# TODO: load value from config #}
+                {{ blog.content(500) }}
+            </div>
+        </article>
+    {% else %}
+        <p class="notfound">There are no blogs</p>
+    {% endfor %}
+{% endblock %}

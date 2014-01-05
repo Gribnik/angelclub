@@ -13,8 +13,27 @@ class BlogController extends Controller
     {
         //$this->helper = $this->get('backpack');
     }
+
     public function viewAction()
     {
+
+    }
+
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $blogs = $em->createQueryBuilder()
+            ->select('bl')
+            ->from('CmsXutBundle:Gist', 'bl')
+            ->where('bl.type = :blogtype')
+            ->setParameter('blogtype', 'blog')
+            ->addOrderBy('bl.date_created')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('CmsXutBundle:Blog:list.html.twig', array(
+            'blogs' => $blogs
+        ));
 
     }
 
