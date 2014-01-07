@@ -269,6 +269,24 @@ class Gist
     }
 
     /**
+     * Remove all tags
+     */
+    public function removeAllTags()
+    {
+        $this->tags = array();
+    }
+
+    /**
+     * Do nothing with the tags string
+     *
+     * @param string $tags
+     */
+    public function setTags($tags)
+    {
+
+    }
+
+    /**
      * Get tags
      *
      * @return \Doctrine\Common\Collections\Collection 

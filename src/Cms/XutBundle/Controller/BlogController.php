@@ -89,6 +89,9 @@ class BlogController extends Controller
             $form = $this->createForm(new BlogpostType(), $post);
             $form->handleRequest($request);
             if ($form->isValid()) {
+                /* Tags were passed as string. Process the string */
+                $formData = $form->getData();
+                $tags = $em->getRepository('CmsXutBundle:Gist')->setTagsFromString($formData['tags'], $post);
                 $em->persist($post);
                 $em->flush();
             } else {

@@ -2,6 +2,7 @@
       method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
     {{ form_row(form.name) }}
+    {{ form_row(form.tags) }}
     {{ form_row(form.content) }}
 
     {{ form_rest(form) }}
