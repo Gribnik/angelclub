@@ -24,12 +24,27 @@ class Gist
     /**
      * @ORM\Column(name="type", type="string", length=30)
      */
-    private $type; /* TODO: add index */
+    private $type;
 
     /**
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Category",inversedBy="gists")
+     */
+    private $categories;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag",inversedBy="gists")
+     */
+    private $tags;
+
+    /**
+     * @ORM\Column(name="featured_image", type="string", length=200)
+     */
+    private $featured_image;
 
     /**
      * @ORM\Column(name="date_created", type="datetime")
@@ -164,5 +179,102 @@ class Gist
     public function getDateUpdated()
     {
         return $this->date_updated;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set featured_image
+     *
+     * @param string $featuredImage
+     * @return Gist
+     */
+    public function setFeaturedImage($featuredImage)
+    {
+        $this->featured_image = $featuredImage;
+    
+        return $this;
+    }
+
+    /**
+     * Get featured_image
+     *
+     * @return string 
+     */
+    public function getFeaturedImage()
+    {
+        return $this->featured_image;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \Cms\XutBundle\Entity\Category $categories
+     * @return Gist
+     */
+    public function addCategorie(\Cms\XutBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+    
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Cms\XutBundle\Entity\Category $categories
+     */
+    public function removeCategorie(\Cms\XutBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \Cms\XutBundle\Entity\Tag $tags
+     * @return Gist
+     */
+    public function addTag(\Cms\XutBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \Cms\XutBundle\Entity\Tag $tags
+     */
+    public function removeTag(\Cms\XutBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
