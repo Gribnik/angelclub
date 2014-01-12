@@ -1,0 +1,7 @@
+<form id="editcat" action="{% if category.id == '' %} {{ path('category_create') }} {% else %} {{ path('category_update', {'category_id': category.id}) }} {% endif %}"
+      method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_rest(form) }}
+    <input type="submit" value="Submit" />
+</form>

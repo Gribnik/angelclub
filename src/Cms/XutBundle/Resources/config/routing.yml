@@ -62,3 +62,28 @@ post_remove:
     requirements:
         _method: GET
         post_id: \d+
+
+category_new:
+    pattern: /editcat/
+    defaults: { _controller: CmsXutBundle:Category:edit }
+    requirements:
+        _method: GET
+
+category_edit:
+    pattern: /editcat/{category_id}
+    defaults: { _controller: CmsXutBundle:Category:edit }
+    requirements:
+        _method: GET
+
+category_create:
+    pattern: /savecat/
+    defaults: { _controller: CmsXutBundle:Category:save }
+    requirements:
+        _method: POST
+
+category_update:
+    pattern: /savecat/{category_id}
+    defaults: { _controller: CmsXutBundle:Category:save }
+    requirements:
+        _method: POST
+        category_id: \d+

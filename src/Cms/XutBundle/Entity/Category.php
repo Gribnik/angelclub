@@ -35,7 +35,7 @@ class Category
 
     public function __construct()
     {
-        $this->$gists = new ArrayCollection();
+        $this->gists = new ArrayCollection();
     }
 
     /**
