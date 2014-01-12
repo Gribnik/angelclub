@@ -15,7 +15,7 @@ class BlogpostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('tags', 'text', array('required' => false));
+        $builder->add('tagsfield', 'text', array('required' => false));
         $builder->add('content', 'textarea');
     }
 }

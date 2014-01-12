@@ -2,6 +2,7 @@
 
 namespace Cms\XutBundle\Controller;
 use Cms\XutBundle\Entity\Gist;
+use Cms\XutBundle\Entity\Tag;
 use Cms\XutBundle\Form\BlogpostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -90,8 +91,8 @@ class BlogController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 /* Tags were passed as string. Process the string */
-                $formData = $form->getData();
-                $tags = $em->getRepository('CmsXutBundle:Gist')->setTagsFromString($formData['tags'], $post);
+                $_postValues = $request->request->get('blogpost');
+                $this->_setTagsFromString($_postValues['tagsfield'], $post);
                 $em->persist($post);
                 $em->flush();
             } else {
@@ -101,7 +102,7 @@ class BlogController extends Controller
             throw new AccessDeniedException();
         }
 
-        return $this->_sendJsonResponse('');
+        return $this->get('backpack')->sendJsonResponse('');
     }
 
     public function removeAction($post_id)
@@ -126,5 +127,55 @@ class BlogController extends Controller
     protected function _isAdmin()
     {
         return true === $this->get('security.context')->isGranted('ROLE_ADMIN');
+    }
+
+    /**
+     * Process tags string
+     *
+     * @param string $tags
+     * @param \Cms\XutBundle\Entity\Gist $post
+     */
+    protected function _setTagsFromString($tags, $post)
+    {
+        $newTags = array();
+        if (!empty($tags)) {
+            $em = $this->getDoctrine()->getManager();
+            $tagsArray = explode(',', $tags);
+            array_walk($tagsArray, array($this, '_normalizeTagNames'));
+
+            /* Get all tags */
+            $allTags = $em->getRepository('CmsXutBundle:Tag')->findAll();
+
+            /* Add tags to the post */
+            foreach ($allTags as $_tag) {
+                if (count($tagsArray) < 1) {
+                    break;
+                }
+                if (false !== ($key = array_search($_tag->getName(), $tagsArray))) {
+                    array_push($newTags, $_tag->getId());
+                    $post->addTag($_tag);
+                    unset($tagsArray[$key]);
+                }
+            }
+
+            /* We have new tags, add them to the database */
+            if (count($tagsArray) > 0) {
+                foreach ($tagsArray as $_tag) {
+                    $tag = new Tag();
+                    $tag->setType('blog');
+                    $tag->setName($_tag);
+                    $em->persist($tag);
+                }
+                $em->flush();
+            }
+        } else {
+            /* If the tags string is empty, remove all tags */
+            $post->removeAllTags(); /* FIXME: */
+        }
+    }
+
+    protected function _normalizeTagNames(&$tag)
+    {
+        $tag = trim($tag);
     }
 }

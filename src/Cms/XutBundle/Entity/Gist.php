@@ -295,4 +295,14 @@ class Gist
     {
         return $this->tags;
     }
+
+    public function getTagsfield()
+    {
+       return '';
+    }
+
+    public function setTagsfield()
+    {
+
+    }
 }
