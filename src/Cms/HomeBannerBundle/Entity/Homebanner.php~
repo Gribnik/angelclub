@@ -1,0 +1,39 @@
+<?php
+
+namespace Cms\HomeBannerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="cms_homebanner")
+ * @ORM\Entity()
+ */
+class Homebanner
+{
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name="image", type="string", length=80)
+     */
+    private $image;
+
+    /**
+     * @ORM\Column(name="description", type="string", length=1000)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(name="date_created", type="datetime")
+     */
+    private $date_created;
+
+    /**
+     * @ORM\Column(name="date_updated", type="datetime")
+     */
+    private $date_updated;
+}

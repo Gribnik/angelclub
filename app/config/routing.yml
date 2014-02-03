@@ -1,3 +1,7 @@
+cms_home_banner:
+    resource: "@CmsHomeBannerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cms_xut:
     resource: "@CmsXutBundle/Resources/config/routing.yml"
     prefix:   /
