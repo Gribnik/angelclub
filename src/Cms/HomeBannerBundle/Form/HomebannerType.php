@@ -14,7 +14,7 @@ class HomebannerType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('image', 'file');
+        $builder->add('file', 'file');
         $builder->add('description', 'textarea', array('required' => false));
     }
 }

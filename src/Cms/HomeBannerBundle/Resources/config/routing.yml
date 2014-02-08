@@ -1,7 +1,11 @@
 set_home_banner:
     pattern:  /homebanner/setimage
-    defaults: { _controller: CmsHomeBannerBundle:Default:setimage }
+    defaults: { _controller: CmsHomeBannerBundle:Default:setImage }
 
 get_home_banner_form:
     pattern:  /homebanner/getform
-    defaults: { _controller: CmsHomeBannerBundle:Default:getform }
+    defaults: { _controller: CmsHomeBannerBundle:Default:getForm }
+
+get_home_banner:
+    pattern:  /homebanner/gethomebanner
+    defaults: { _controller: CmsHomeBannerBundle:Default:getImage }

@@ -1,6 +1,6 @@
-<form id="hb-image" action="set_home_banner" method="post" {{ form_enctype(form) }}>
+<form id="hb-image" action="{{ path('set_home_banner') }}" method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
-    {{ form_row(form.image) }}
+    {{ form_row(form.file) }}
     {{ form_row(form.description) }}
 
     {{ form_rest(form) }}
