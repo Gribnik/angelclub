@@ -1,4 +1,5 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
-
+    {# Insert Home Banner #}
+    {{ render(controller("CmsHomeBannerBundle:Default:getImage")) }}
 {% endblock %}

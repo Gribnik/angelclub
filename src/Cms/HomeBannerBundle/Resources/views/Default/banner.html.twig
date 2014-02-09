@@ -1,1 +1,9 @@
-Hello {{ name }}!
+<div class="home-banner-wrapper">
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="banner-edit">
+            <a href="#">Change</a>
+        </div>
+    {% endif %}
+    <img src="{{ banner.getWebPath() }}" alt="Amabilis insania" />
+    <div class="banner-quote">{{ banner.getDescription() }}</div>
+</div>

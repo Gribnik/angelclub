@@ -59,12 +59,11 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $banner = $em->getRepository('CmsHomeBannerBundle:Homebanner')->findOneById(1);
+        $currentDate = date("Y-m-d H:i:s");
         if (is_null($banner)) {
             $banner = new Homebanner();
-            $currentDate = date("Y-m-d H:i:s");
             $banner->setDateCreated(new \DateTime($currentDate));
         }
-
         $banner->setDateUpdated(new \DateTime($currentDate));
         return $banner;
     }
