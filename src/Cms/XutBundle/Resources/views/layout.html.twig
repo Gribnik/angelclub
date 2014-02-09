@@ -1,6 +1,11 @@
 {% extends '::base.html.twig' %}
 {% block admin_toolbar %}
     {% if is_granted('ROLE_ADMIN') %}
-         {{ include("CmsXutBundle:Admin:toolbar.html.twig") }}
+        {{ include("CmsXutBundle:Admin:toolbar.html.twig") }}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
+        {% endblock %}
     {% endif %}
 {% endblock %}

@@ -1,5 +1,8 @@
 <div class="home-banner-wrapper">
     {% if is_granted('ROLE_ADMIN') %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
+        {% endblock %}
         <div class="banner-edit">
             <a href="#">Change</a>
         </div>
