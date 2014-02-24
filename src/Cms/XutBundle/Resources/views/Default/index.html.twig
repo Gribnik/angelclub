@@ -2,4 +2,6 @@
 {% block body %}
     {# Insert Home Banner #}
     {{ render(controller("CmsHomeBannerBundle:Default:getImage")) }}
+    <a href="{{ path('post_list') }}" title="Blog">Blog</a>
+    <a href="#" title="Blog">Gallery</a>
 {% endblock %}

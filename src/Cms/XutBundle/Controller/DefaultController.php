@@ -11,8 +11,8 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository('CmsXutBundle:Gist');
-        $blogs = $repo->findAll();
+
+        $tag = $this->getDoctrine()->getManager()->getRepository('CmsXutBundle:Tag')->find(1);
         return $this->render('CmsXutBundle:Default:index.html.twig');
     }
 
