@@ -1,0 +1,13 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+{% block body %}
+    {% for image in images %}
+        <article class="blog-in-list">
+            <div class="image">
+                <img src="{{ image.getWebPath() }}" alt="">
+            </div>
+            <div>{{ image.content }}<div>
+        </article>
+    {% else %}
+        <p class="notfound">There are no images :(</p>
+    {% endfor %}
+{% endblock %}

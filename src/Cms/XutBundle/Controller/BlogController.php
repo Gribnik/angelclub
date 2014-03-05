@@ -25,7 +25,7 @@ class BlogController extends Controller
                 'post' => $post
             ));
         } else {
-            /* TODO: Render 404 page */
+            throw $this->createNotFoundException('message');
         }
     }
 

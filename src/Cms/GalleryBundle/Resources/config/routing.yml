@@ -1,0 +1,38 @@
+gallery_index:
+    pattern:  /gallery
+    defaults: { _controller: CmsGalleryBundle:Default:index }
+
+gallery_list_images:
+    pattern:  /gallery/list
+    defaults: { _controller: CmsGalleryBundle:Default:index }
+
+gallery_image_new:
+    pattern: /gallery/new
+    defaults: { _controller: CmsGalleryBundle:Default:edit }
+    requirements:
+        _method: GET
+
+gallery_image_edit:
+    pattern: /gallery/edit/{image_id}
+    defaults: { _controller: CmsGalleryBundle:Default:edit }
+    requirements:
+        _method: GET
+
+gallery_image_create:
+    pattern: /gallery/create
+    defaults: { _controller: CmsGalleryBundle:Default:save }
+    requirements:
+        _method: POST
+
+gallery_image_update:
+    pattern: /gallery/update/{image_id}
+    defaults: { _controller: CmsGalleryBundle:Default:save }
+    requirements:
+        _method: POST
+
+gallery_image_remove:
+    pattern: /gallery/remove/{image_id}
+    defaults: { _controller: CmsGalleryBundle:Default:remove }
+    requirements:
+        _method: GET
+        post_id: \d+
