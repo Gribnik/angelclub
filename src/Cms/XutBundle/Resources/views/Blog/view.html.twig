@@ -11,7 +11,9 @@
             {{ post.content }}
         </div>
         <div class="tags">
-            {{ post.tags }}
+            {% for tag in post.tags %}
+                <a href="#">{{ tag.name }}</a>
+            {% endfor %}
         </div>
     </article>
     <div class="comments">

@@ -6,6 +6,11 @@
                 <img src="{{ image.getWebPath() }}" alt="">
             </div>
             <div>{{ image.content }}<div>
+            <div class="tags">
+                {% for tag in image.tags %}
+                    <a href="#">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
         </article>
     {% else %}
         <p class="notfound">There are no images :(</p>

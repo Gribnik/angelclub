@@ -298,6 +298,17 @@ class Gist
         return $this->tags;
     }
 
+    public function getTagNames()
+    {
+        $tagnames = array();
+        /** Cms\XutBundle\Entity\Tag $_tag  */
+        foreach ($this->tags as $_tag) {
+            array_push($tagnames, $_tag->getName());
+        }
+
+        return implode(',', $tagnames);
+    }
+
     public function getTagsfield()
     {
        return '';
@@ -335,7 +346,7 @@ class Gist
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
-        return 'uploads/gallery/';
+        return '/uploads/gallery/';
     }
 
     /**
