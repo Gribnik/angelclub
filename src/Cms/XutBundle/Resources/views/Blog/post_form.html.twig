@@ -1,4 +1,4 @@
-<form id="editpost" action="{% if post.id == '' %} {{ path('post_create') }} {% else %} {{ path('post_update', {'post_id': post.id}) }} {% endif %}"
+<form id="editpost" action="{% if post.id == '' %} {{ path('blog_post_create') }} {% else %} {{ path('blog_post_update', {'post_id': post.id}) }} {% endif %}"
       method="post" {{ form_enctype(form) }}>
     {{ form_errors(form) }}
     {{ form_row(form.name) }}
