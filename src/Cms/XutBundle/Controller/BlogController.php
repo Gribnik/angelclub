@@ -137,11 +137,30 @@ class BlogController extends Controller
      */
     protected function _setTagsFromString($tags, $post)
     {
+        // TODO: explode this method into the smallest parts
+
         $newTags = array();
         if (!empty($tags)) {
             $em = $this->getDoctrine()->getManager();
             $tagsArray = explode(',', $tags);
             array_walk($tagsArray, array($this, '_normalizeTagNames'));
+
+            /* Get previous gist tags */
+            $oldTags = $post->getTags();
+            $oldTagsArray = array();
+            foreach ($oldTags as $_oldTag) {
+                array_push($oldTagsArray, $_oldTag->getName());
+                /* Remove the old tags from the post if necessary */
+                if (!in_array($_oldTag->getName(), $tagsArray)) {
+                    $post->removeTag($_oldTag);
+                    // TODO: make an observer to check if removed tags are still being used somewhere
+                }
+            }
+
+            /* If there are only old tags - no reason to proceed */
+            if (count(array_diff($tagsArray, $oldTagsArray)) < 1) {
+                return;
+            }
 
             /* Get all tags */
             $allTags = $em->getRepository('CmsXutBundle:Tag')->findAll();
@@ -152,8 +171,10 @@ class BlogController extends Controller
                     break;
                 }
                 if (false !== ($key = array_search($_tag->getName(), $tagsArray))) {
-                    array_push($newTags, $_tag->getId());
-                    $post->addTag($_tag);
+                    if (!in_array($_tag->getName(), $oldTagsArray)) {
+                        array_push($newTags, $_tag->getId());
+                        $post->addTag($_tag);
+                    }
                     unset($tagsArray[$key]);
                 }
             }
@@ -165,17 +186,25 @@ class BlogController extends Controller
                     $tag->setType('blog');
                     $tag->setName($_tag);
                     $em->persist($tag);
+                    $em->flush();
+                    $post->addTag($tag); // TODO: might be optimized a bit
                 }
-                $em->flush();
+
             }
         } else {
             /* If the tags string is empty, remove all tags */
-            $post->removeAllTags(); /* FIXME: */
+            $post->removeAllTags();
         }
     }
 
     protected function _normalizeTagNames(&$tag)
     {
+        // TODO: make ability to have not only lovercased tags
+        if (empty($tag)) {
+            $tag = null;
+            return;
+        }
         $tag = trim($tag);
+        $tag = strtolower($tag);
     }
 }

@@ -275,7 +275,9 @@ class Gist
      */
     public function removeAllTags()
     {
-        $this->tags = array();
+        foreach ($this->tags as $_tag) {
+            $this->removeTag($_tag);
+        }
     }
 
     /**
@@ -311,7 +313,7 @@ class Gist
 
     public function getTagsfield()
     {
-       return '';
+       return $this->getTagNames();
     }
 
     public function setTagsfield()
