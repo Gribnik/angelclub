@@ -41,16 +41,28 @@ class DefaultController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction()
+    public function listAction($tagname = null)
     {
+        // TODO: Reduce queries count, connected to the tags
+
         $em = $this->getDoctrine()->getManager();
         $images = $em->createQueryBuilder()
             ->select('bl')
             ->from('CmsXutBundle:Gist', 'bl')
             ->where('bl.type = :gisttype')
             ->setParameter('gisttype', 'image')
-            ->addOrderBy('bl.date_created')
-            ->getQuery()
+            ->addOrderBy('bl.date_created');
+
+        if (!is_null($tagname) && !empty($tagname)) {
+            $tag =  $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
+            if (!is_null($tag)) {
+                $images = $images->innerJoin('bl.tags', 'tg')
+                    ->andWhere('tg.id = :tag')
+                    ->setParameter('tag', $tag->getId());
+            }
+        }
+
+        $images = $images->getQuery()
             ->getResult();
 
         return $this->render('CmsGalleryBundle:Default:list.html.twig', array(

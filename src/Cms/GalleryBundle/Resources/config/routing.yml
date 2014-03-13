@@ -6,6 +6,12 @@ gallery_list_images:
     pattern:  /gallery/list
     defaults: { _controller: CmsGalleryBundle:Default:index }
 
+gallery_list_images_by_tag:
+    pattern: /gallery/tag/{tagname}
+    defaults: { _controller: CmsGalleryBundle:Default:list }
+    requirements:
+        _method: GET
+
 gallery_image_new:
     pattern: /gallery/new
     defaults: { _controller: CmsGalleryBundle:Default:edit }

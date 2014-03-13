@@ -31,12 +31,14 @@ class BlogController extends Controller
 
     public function listAction($tagname = null)
     {
+        // TODO: Reduce queries count, connected to the tags
+
         $em = $this->getDoctrine()->getManager();
         $blogs = $em->createQueryBuilder()
             ->select('bl')
             ->from('CmsXutBundle:Gist', 'bl')
-            ->where('bl.type = :blogtype')
-            ->setParameter('blogtype', 'blog')
+            ->where('bl.type = :gisttype')
+            ->setParameter('gisttype', 'blog')
             ->addOrderBy('bl.date_created');
 
         if (!is_null($tagname) && !empty($tagname)) {
