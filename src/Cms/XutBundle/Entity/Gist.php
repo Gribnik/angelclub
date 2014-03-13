@@ -42,7 +42,7 @@ class Gist
     private $tags;
 
     /**
-     * @ORM\Column(name="featured_image", type="string", length=200)
+     * @ORM\Column(name="featured_image", type="string", length=200, nullable=true)
      */
     private $featured_image;
 

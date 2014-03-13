@@ -1,3 +1,7 @@
+cms_blog:
+    resource: "@CmsBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
 cms_gallery:
     resource: "@CmsGalleryBundle/Resources/config/routing.yml"
     prefix:   /

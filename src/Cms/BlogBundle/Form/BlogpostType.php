@@ -1,6 +1,6 @@
 <?php
 
-namespace Cms\XutBundle\Form;
+namespace Cms\BlogBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

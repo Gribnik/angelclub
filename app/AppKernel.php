@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Cms\HomeBannerBundle\CmsHomeBannerBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Cms\GalleryBundle\CmsGalleryBundle(),
+            new Cms\BlogBundle\CmsBlogBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

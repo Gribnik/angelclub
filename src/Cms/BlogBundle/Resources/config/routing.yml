@@ -1,0 +1,49 @@
+blog_index:
+    pattern: /blog
+    defaults: { _controller: CmsBlogBundle:Blog:list }
+    requirements:
+        _method: GET
+
+blog_list_posts:
+    pattern: /blog
+    defaults: { _controller: CmsBlogBundle:Blog:list }
+    requirements:
+        _method: GET
+
+blog_post_new:
+    pattern: /blog/new
+    defaults: { _controller: CmsBlogBundle:Blog:edit }
+    requirements:
+        _method: GET
+
+blog_post_edit:
+    pattern: /blog/edit/{post_id}
+    defaults: { _controller: CmsBlogBundle:Blog:edit }
+    requirements:
+        _method: GET
+
+blog_post_create:
+    pattern: /blog/save
+    defaults: { _controller: CmsBlogBundle:Blog:save }
+    requirements:
+        _method: POST
+
+blog_post_update:
+    pattern: /blog/save/{post_id}
+    defaults: { _controller: CmsBlogBundle:Blog:save }
+    requirements:
+        _method: POST
+
+blog_post_view:
+    pattern: /blog/{post_id}
+    defaults: { _controller: CmsBlogBundle:Blog:view }
+    requirements:
+        _method: GET
+        post_id: \d+
+
+blog_post_remove:
+    pattern: /blog/remove/{post_id}
+    defaults: { _controller: CmsBlogBundle:Blog:remove }
+    requirements:
+        _method: GET
+        post_id: \d+

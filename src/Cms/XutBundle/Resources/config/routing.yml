@@ -19,56 +19,6 @@ login_check:
 logout:
     pattern:  /locomotive/logout
 
-blog_index:
-    pattern: /blog
-    defaults: { _controller: CmsXutBundle:Blog:list }
-    requirements:
-        _method: GET
-
-blog_list_posts:
-    pattern: /blog
-    defaults: { _controller: CmsXutBundle:Blog:list }
-    requirements:
-        _method: GET
-
-blog_post_new:
-    pattern: /blog/new
-    defaults: { _controller: CmsXutBundle:Blog:edit }
-    requirements:
-        _method: GET
-
-blog_post_edit:
-    pattern: /blog/edit/{post_id}
-    defaults: { _controller: CmsXutBundle:Blog:edit }
-    requirements:
-        _method: GET
-
-blog_post_create:
-    pattern: /blog/save
-    defaults: { _controller: CmsXutBundle:Blog:save }
-    requirements:
-        _method: POST
-
-blog_post_update:
-    pattern: /blog/save/{post_id}
-    defaults: { _controller: CmsXutBundle:Blog:save }
-    requirements:
-        _method: POST
-
-blog_post_view:
-    pattern: /blog/{post_id}
-    defaults: { _controller: CmsXutBundle:Blog:view }
-    requirements:
-        _method: GET
-        post_id: \d+
-
-blog_post_remove:
-    pattern: /blog/remove/{post_id}
-    defaults: { _controller: CmsXutBundle:Blog:remove }
-    requirements:
-        _method: GET
-        post_id: \d+
-
 category_new:
     pattern: /editcat/
     defaults: { _controller: CmsXutBundle:Category:edit }

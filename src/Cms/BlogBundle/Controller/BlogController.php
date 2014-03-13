@@ -1,9 +1,9 @@
 <?php
 
-namespace Cms\XutBundle\Controller;
+namespace Cms\BlogBundle\Controller;
 use Cms\XutBundle\Entity\Gist;
 use Cms\XutBundle\Entity\Tag;
-use Cms\XutBundle\Form\BlogpostType;
+use Cms\BlogBundle\Form\BlogpostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -21,7 +21,7 @@ class BlogController extends Controller
         $post = $em->getRepository('CmsXutBundle:Gist')->findOneById($post_id);
 
         if (!is_null($post)) {
-            return $this->render('CmsXutBundle:Blog:view.html.twig', array(
+            return $this->render('CmsBlogBundle:Blog:view.html.twig', array(
                 'post' => $post
             ));
         } else {
@@ -41,7 +41,7 @@ class BlogController extends Controller
             ->getQuery()
             ->getResult();
 
-        return $this->render('CmsXutBundle:Blog:list.html.twig', array(
+        return $this->render('CmsBlogBundle:Blog:list.html.twig', array(
             'blogs' => $blogs
         ));
 
@@ -60,7 +60,7 @@ class BlogController extends Controller
 
             $form = $this->createForm(new BlogpostType(), $post);
 
-            return $this->render('CmsXutBundle:Blog:post_form.html.twig', array(
+            return $this->render('CmsBlogBundle:Blog:post_form.html.twig', array(
                 'form' => $form->createView(),
                 'post' => $post
             ));
