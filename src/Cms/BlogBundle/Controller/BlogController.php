@@ -29,7 +29,7 @@ class BlogController extends Controller
         }
     }
 
-    public function listAction()
+    public function listAction($tagname = null)
     {
         $em = $this->getDoctrine()->getManager();
         $blogs = $em->createQueryBuilder()
@@ -37,8 +37,18 @@ class BlogController extends Controller
             ->from('CmsXutBundle:Gist', 'bl')
             ->where('bl.type = :blogtype')
             ->setParameter('blogtype', 'blog')
-            ->addOrderBy('bl.date_created')
-            ->getQuery()
+            ->addOrderBy('bl.date_created');
+
+        if (!is_null($tagname) && !empty($tagname)) {
+            $tag =  $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
+            if (!is_null($tag)) {
+                $blogs = $blogs->innerJoin('bl.tags', 'tg')
+                    ->andWhere('tg.id = :tag')
+                    ->setParameter('tag', $tag->getId());
+            }
+        }
+
+        $blogs = $blogs->getQuery()
             ->getResult();
 
         return $this->render('CmsBlogBundle:Blog:list.html.twig', array(

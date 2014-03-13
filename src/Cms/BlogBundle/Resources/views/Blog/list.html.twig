@@ -15,7 +15,7 @@
             <div class="tags">
                 Tags:
                 {% for tag in blog.tags %}
-                    <a href="#">{{ tag.name }}</a>
+                    <a href="{{ path('blog_list_posts_by_tag', { 'tagname': tag.name }) }}">{{ tag.name }}</a>
                 {% endfor %}
             </div>
         </article>

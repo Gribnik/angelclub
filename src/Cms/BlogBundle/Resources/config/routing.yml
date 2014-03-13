@@ -10,6 +10,12 @@ blog_list_posts:
     requirements:
         _method: GET
 
+blog_list_posts_by_tag:
+    pattern: /blog/tag/{tagname}
+    defaults: { _controller: CmsBlogBundle:Blog:list }
+    requirements:
+        _method: GET
+
 blog_post_new:
     pattern: /blog/new
     defaults: { _controller: CmsBlogBundle:Blog:edit }
