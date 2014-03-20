@@ -6,55 +6,89 @@ use Cms\HomeBannerBundle\Entity\Homebanner;
 use Cms\HomeBannerBundle\Form\HomebannerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DefaultController extends Controller
 {
+    /**
+     * Saves the home banner data
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function setImageAction(Request $request)
     {
-        $homebanner = $this->_getInitialBanner();
-        $form = $this->createForm(new HomebannerType(), $homebanner);
+        if ($this->_isAdmin()) {
+            $homebanner = $this->_getInitialBanner();
+            $form = $this->createForm(new HomebannerType(), $homebanner);
 
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
 
-            /* TODO: make max upload size */
-            /* TODO: Date Created and Date Updated */
-            $homebanner->upload();
+                /* TODO: make max upload size */
+                /* TODO: Date Created and Date Updated */
+                $homebanner->upload();
 
-            $em->persist($homebanner);
-            $em->flush();
+                $em->persist($homebanner);
+                $em->flush();
 
-            $this->get('session')->getFlashBag()->add(
-                'notice',
-                'Changes were saved!'
-            );
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Changes were saved!'
+                );
 
-            return $this->redirect($this->generateUrl('cms_xut_homepage'));
-        } else {
-            $errors = $form->getErrorsAsString();
+                return $this->redirect($this->generateUrl('cms_xut_homepage'));
+            } else {
+                $errors = $form->getErrorsAsString();
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Cannot save changes " . $errors
+                );
+                return $this->redirect($this->generateUrl('cms_xut_homepage'));
+            }
+        } else { /* TODO: consolidate this into the single unified method */
             $this->get('session')->getFlashBag()->add(
                 'error',
-                "Cannot save changes " . $errors
+                "You don't have permission to complete this action"
             );
-            return $this->redirect($this->generateUrl('cms_xut_homepage'));
+            throw new AccessDeniedException();
         }
     }
 
+    /**
+     * Returns home banner edit form content
+     *
+     * @return mixed
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+     */
     public function getFormAction()
     {
-        /* TODO: secure this area */
-        $homebanner = $this->_getInitialBanner();
-        $form = $this->createForm(new HomebannerType(), $homebanner);
-        $json = array();
-        $view = $this->render('CmsHomeBannerBundle:Default:form.html.twig', array(
-            'form' => $form->createView()
-        ));
-        $json['content'] = $view->getContent();
+        if ($this->_isAdmin()) {
+            $homebanner = $this->_getInitialBanner();
+            $form = $this->createForm(new HomebannerType(), $homebanner);
+            $json = array();
+            $view = $this->render('CmsHomeBannerBundle:Default:form.html.twig', array(
+                'form' => $form->createView()
+            ));
+            $json['content'] = $view->getContent();
 
-        return $this->get('backpack')->sendJsonResponse($json);
+            return $this->get('backpack')->sendJsonResponse($json);
+        } else {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                "You don't have permission to complete this action"
+            );
+            throw new AccessDeniedException();
+        }
     }
 
+    /**
+     * Returns home banner content
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getImageAction()
     {
         $homebanner = $this->_getInitialBanner();
@@ -79,5 +113,15 @@ class DefaultController extends Controller
         }
         $banner->setDateUpdated(new \DateTime($currentDate));
         return $banner;
+    }
+
+    /**
+     * Check if current user has admin role
+     *
+     * @return bool
+     */
+    protected function _isAdmin()
+    {
+        return true === $this->get('security.context')->isGranted('ROLE_ADMIN');
     }
 }
