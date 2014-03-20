@@ -97,6 +97,43 @@ class DefaultController extends Controller
         ));
     }
 
+    public function previewAction(Request $request)
+    {
+        if ($this->_isAdmin()) {
+            $homebanner = $this->_getInitialBanner();
+            $form = $this->createForm(new HomebannerType(), $homebanner);
+
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                /* TODO: make max upload size */
+                /* TODO: Date Created and Date Updated */
+                $homebanner->upload();
+
+                $view = $this->render('CmsHomeBannerBundle:Default:banner.html.twig', array(
+                    'banner' => $homebanner
+                ));
+
+                $json = array(
+                    'status'  => 'success',
+                    'content' => $view->getContent()
+                );
+
+                return $this->get('backpack')->sendJsonResponse($json);
+
+            } else {
+                $errors = $form->getErrorsAsString();
+                $json = array(
+                    'status'  => 'error',
+                    'content' => $errors
+                );
+                return $this->get('backpack')->sendJsonResponse($json);
+            }
+        } else {
+            /* TODO: make some error handling here */
+            throw new AccessDeniedException();
+        }
+    }
+
     /**
      * Returns first banner. Temporary solution
      *

@@ -9,3 +9,7 @@ get_home_banner_form:
 get_home_banner:
     pattern:  /homebanner/gethomebanner
     defaults: { _controller: CmsHomeBannerBundle:Default:getImage }
+
+preview_home_banner:
+    pattern:  /homebanner/preview
+    defaults: { _controller: CmsHomeBannerBundle:Default:preview }

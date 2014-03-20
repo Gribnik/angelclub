@@ -2,6 +2,7 @@
     {% if is_granted('ROLE_ADMIN') %}
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/jquery.iframe-transport.js') }}"></script>
         {% endblock %}
 
         {# TODO: make as one cycle #}
@@ -19,24 +20,32 @@
         <div id="hb-form-container">
             <a href="#" id="hb-change-button">Change</a>
         </div>
+
+
         <script type="text/javascript">
             HBFormData = Backbone.Model.extend({
                 defaults: {
-                    content: 'ss'
+                    content: ''
                 }
             });
 
+            HBPreview = Backbone.Model.extend();
+
             HbForm = Backbone.View.extend({
                 events: {
-                    'click a#hb-change-button' : 'toggleForm'
+                    'click a#hb-change-button' : 'toggleForm',
+                    'click #hb-preview-button' : 'previewChanges'
                 },
 
                 initialize: function(options) {
                     this.loaded = false; // Is the form loaded
-                    _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm'); // fixes loss of context for 'this' within methods
-                    _.extend(this, _.pick(options, "urlPath")); // Pick options, passed to the controller
+                    this.childPopup = false; // Preview window
+                    _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'previewChanges', '_submitData'); // fixes loss of context for 'this' within methods
+                    _.extend(this, _.pick(options, 'formPath', 'previewPath')); // Pick options, passed to the controller
                     this.formModel = new HBFormData();
-                    this.formModel.urlRoot = this.urlPath;
+                    this.previewModel = new HBPreview();
+                    this.previewModel.urlRoot = this.previewPath;
+                    this.formModel.urlRoot = this.formPath;
                 },
 
                 render: function() {
@@ -66,13 +75,45 @@
                             location.reload();
                         }
                     })
+                },
+
+                previewChanges: function() {
+                    this._submitData();
+                },
+
+                _submitData: function(event) {
+                    var values = {};
+                    var formView = this;
+                    if(event){ event.preventDefault(); }
+
+                    _.each(this.$('form').serializeArray(), function(input){
+                        values[ input.name ] = input.value;
+                    });
+
+                    this.previewModel.save(values, {
+                        iframe: true,
+                        files: this.$('form :file'),
+                        data: values,
+                        success: function(previewModel) {
+                            formView.childPopup = window.open(previewModel.previewPath);
+                            if (previewModel.get('status') == 'success') {
+                                /* TODO: prevent popup from blocking */
+                                formView.childPopup.document.write(previewModel.get('content'));
+                            } else {
+                                /* TODO: show an error somehow */
+                                alert('There was an error processing your request');
+                            }
+                        }
+                    });
                 }
             });
 
             var hb_edit_form = new HbForm({
                 el: $("#hb-form-container"),
-                urlPath: '{{ path('get_home_banner_form') }}'
+                formPath: '{{ path('get_home_banner_form') }}',
+                previewPath:'{{ path('preview_home_banner') }}'
             });
+
         </script>
     {% endif %}
     <img id="homme_banner_image" src="{{ banner.getWebPath() }}" alt="Amabilis insania" />
