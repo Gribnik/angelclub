@@ -112,9 +112,11 @@ class DefaultController extends Controller
             } else {
                 $image = $em->getRepository('CmsXutBundle:Gist')->find($image_id);
                 if (is_null($image)) {
-                    return $this->get('backpack')->sendJsonResponse('Image with requested id does not exist', 'error');
+                    return $this->get('backpack')->sendJsonResponseText('Image with requested id does not exist', 'error');
                 }
             }
+
+            // TODO: Remove previous image if the new one has been uploaded
 
             $image->setDateUpdated(new \DateTime($currentDate));
             $form = $this->createForm(new ImageType(), $image);
@@ -127,13 +129,13 @@ class DefaultController extends Controller
                 $em->persist($image);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('The form has missing required fields', 'error');
+                return $this->get('backpack')->sendJsonResponseText('The form has missing required fields', 'error');
             }
         } else {
             throw new AccessDeniedException();
         }
 
-        return $this->get('backpack')->sendJsonResponse('');
+        return $this->get('backpack')->sendJsonResponseText('');
     }
 
     protected function _setTagsFromString($tags, $image)
@@ -185,10 +187,10 @@ class DefaultController extends Controller
                 $em->remove($image);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('Image with requested id does not exist', 'error');
+                return $this->get('backpack')->sendJsonResponseText('Image with requested id does not exist', 'error');
             }
 
-            return $this->get('backpack')->sendJsonResponse('');
+            return $this->get('backpack')->sendJsonResponseText('');
         } else {
             throw new AccessDeniedException();
         }

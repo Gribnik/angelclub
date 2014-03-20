@@ -42,7 +42,7 @@ class CategoryController extends Controller
             } else {
                 $category = $em->getRepository('CmsXutBundle:Category')->find($category_id);
                 if (is_null($category)) {
-                    return $this->get('backpack')->sendJsonResponse('Category with requested id does not exist', 'error');
+                    return $this->get('backpack')->sendJsonResponseText('Category with requested id does not exist', 'error');
                 }
             }
 
@@ -52,13 +52,13 @@ class CategoryController extends Controller
                 $em->persist($category);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('The form has missing required fields', 'error');
+                return $this->get('backpack')->sendJsonResponseText('The form has missing required fields', 'error');
             }
         } else {
             throw new AccessDeniedException();
         }
 
-        return $this->get('backpack')->sendJsonResponse('');
+        return $this->get('backpack')->sendJsonResponseText('');
     }
 
     public function removeAction($category_id)
@@ -71,10 +71,10 @@ class CategoryController extends Controller
                 $em->remove($category);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('Category with requested id does not exist', 'error');
+                return $this->get('backpack')->sendJsonResponseText('Category with requested id does not exist', 'error');
             }
 
-            return $this->get('backpack')->sendJsonResponse('');
+            return $this->get('backpack')->sendJsonResponseText('');
         } else {
             throw new AccessDeniedException();
         }

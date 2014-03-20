@@ -94,7 +94,7 @@ class BlogController extends Controller
             } else {
                 $post = $em->getRepository('CmsXutBundle:Gist')->find($post_id);
                 if (is_null($post)) {
-                    return $this->get('backpack')->sendJsonResponse('Post with requested id does not exist', 'error');
+                    return $this->get('backpack')->sendJsonResponseText('Post with requested id does not exist', 'error');
                 }
             }
 
@@ -108,13 +108,13 @@ class BlogController extends Controller
                 $em->persist($post);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('The form has missing required fields', 'error');
+                return $this->get('backpack')->sendJsonResponseText('The form has missing required fields', 'error');
             }
         } else {
             throw new AccessDeniedException();
         }
 
-        return $this->get('backpack')->sendJsonResponse('');
+        return $this->get('backpack')->sendJsonResponseText('');
     }
 
     public function removeAction($post_id)
@@ -127,10 +127,10 @@ class BlogController extends Controller
                 $em->remove($post);
                 $em->flush();
             } else {
-                return $this->get('backpack')->sendJsonResponse('Post with requested id does not exist', 'error');
+                return $this->get('backpack')->sendJsonResponseText('Post with requested id does not exist', 'error');
             }
 
-            return $this->get('backpack')->sendJsonResponse('');
+            return $this->get('backpack')->sendJsonResponseText('');
         } else {
             throw new AccessDeniedException();
         }

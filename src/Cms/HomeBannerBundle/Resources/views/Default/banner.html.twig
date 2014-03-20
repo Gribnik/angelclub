@@ -3,10 +3,64 @@
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
         {% endblock %}
-        <div class="banner-edit">
-            <a href="#">Change</a>
+
+        <div id="hb-form-container">
+            <a href="#" id="hb-change-button">Change</a>
         </div>
+        <script type="text/javascript">
+            HBFormData = Backbone.Model.extend({
+                //urlRoot: '/homebanner/getform', /* TODO: make 'path' usage here */
+                defaults: {
+                    content: 'ss'
+                }
+            });
+
+            HbForm = Backbone.View.extend({
+                events: {
+                    'click a#hb-change-button' : 'toggleForm'
+                },
+
+                initialize: function(options) {
+                    this.loaded = false; // Is the form loaded
+                    _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm'); // fixes loss of context for 'this' within methods
+                    _.extend(this, _.pick(options, "urlPath")); // Pick options, passed to the controller
+                    this.formModel = new HBFormData();
+                    this.formModel.urlRoot = this.urlPath;
+                },
+
+                render: function() {
+                    if (this.loaded === true) {
+                        this.$el.html(this.formModel.get("content"));
+                        var template = _.template( $("#hb-form-template").html(), {} );
+                        this.$el.html( template );
+                    }
+                },
+
+                toggleForm: function() {
+                    if (this.loaded === true) {
+                        $('#hb-form').toggle(200);
+                    } else {
+                        this.loadForm()
+                    }
+                },
+
+                loadForm: function() {
+                    var formView = this; /* TODO: optimise it */
+                    this.formModel.fetch({
+                        success: function(formModel) {
+                            formView.loaded = true;
+                            formView.render();
+                        }
+                    })
+                }
+            });
+
+            var hb_edit_form = new HbForm({
+                el: $("#hb-form-container"),
+                urlPath: '{{ path('get_home_banner_form') }}'
+            });
+        </script>
     {% endif %}
-    <img src="{{ banner.getWebPath() }}" alt="Amabilis insania" />
+    <img id="homme_banner_image" src="{{ banner.getWebPath() }}" alt="Amabilis insania" />
     <div class="banner-quote">{{ banner.getDescription() }}</div>
 </div>

@@ -15,7 +15,7 @@ class DefaultController extends Controller
         $form = $this->createForm(new HomebannerType(), $homebanner);
 
         $form->handleRequest($request);
-        //if ($form->isValid()) {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
             /* TODO: make max upload size */
@@ -25,11 +25,13 @@ class DefaultController extends Controller
             $em->persist($homebanner);
             $em->flush();
 
-            return $this->get('backpack')->sendJsonResponse('The image has been saved successfully');
-       // } else {
-       //     $errors = $form->getErrors();
-       //     return $this->get('backpack')->sendJsonResponse('There was an en error during image saving', 'error');
-       // }
+            /* TODO: success flash message */
+            return $this->redirect($this->generateUrl('cms_xut_homepage'));
+        } else {
+            /* TODO: failure flash message */
+            $errors = $form->getErrors();
+            return $this->redirect($this->generateUrl('cms_xut_homepage'));
+        }
     }
 
     public function getFormAction()
@@ -37,9 +39,13 @@ class DefaultController extends Controller
         /* TODO: secure this area */
         $homebanner = $this->_getInitialBanner();
         $form = $this->createForm(new HomebannerType(), $homebanner);
-        return $this->render('CmsHomeBannerBundle:Default:form.html.twig', array(
+        $json = array();
+        $view = $this->render('CmsHomeBannerBundle:Default:form.html.twig', array(
             'form' => $form->createView()
         ));
+        $json['content'] = $view->getContent();
+
+        return $this->get('backpack')->sendJsonResponse($json);
     }
 
     public function getImageAction()

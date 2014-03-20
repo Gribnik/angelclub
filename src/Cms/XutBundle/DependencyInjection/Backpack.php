@@ -22,7 +22,7 @@ class Backpack
         $this->_session->start();
     }*/
 
-    public function sendJsonResponse($text, $status='success')
+    public function sendJsonResponseText($text, $status='success')
     {
         $response = new Response();
         $jsonContent = array(
@@ -30,6 +30,16 @@ class Backpack
             'status' => $status
         );
         $response->setContent(json_encode($jsonContent));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
+    public function sendJsonResponse(array $data)
+    {
+        $response = new Response();
+        $jsonContent = json_encode($data);
+        $response->setContent($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
