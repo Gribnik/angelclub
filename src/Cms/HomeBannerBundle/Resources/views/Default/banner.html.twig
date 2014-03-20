@@ -4,12 +4,23 @@
             <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
         {% endblock %}
 
+        {# TODO: make as one cycle #}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message notice">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash-message error">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+
         <div id="hb-form-container">
             <a href="#" id="hb-change-button">Change</a>
         </div>
         <script type="text/javascript">
             HBFormData = Backbone.Model.extend({
-                //urlRoot: '/homebanner/getform', /* TODO: make 'path' usage here */
                 defaults: {
                     content: 'ss'
                 }

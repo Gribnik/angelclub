@@ -25,11 +25,18 @@ class DefaultController extends Controller
             $em->persist($homebanner);
             $em->flush();
 
-            /* TODO: success flash message */
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                'Changes were saved!'
+            );
+
             return $this->redirect($this->generateUrl('cms_xut_homepage'));
         } else {
-            /* TODO: failure flash message */
-            $errors = $form->getErrors();
+            $errors = $form->getErrorsAsString();
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                "Cannot save changes " . $errors
+            );
             return $this->redirect($this->generateUrl('cms_xut_homepage'));
         }
     }
