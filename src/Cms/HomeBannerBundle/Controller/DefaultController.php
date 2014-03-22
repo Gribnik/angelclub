@@ -113,6 +113,8 @@ class DefaultController extends Controller
                     'banner' => $homebanner
                 ));
 
+                /* TODO: Make an observer in order to remove uploaded images for preview */
+
                 $json = array(
                     'status'  => 'success',
                     'content' => $view->getContent()
