@@ -41,11 +41,12 @@
                     this.loaded = false; // Is the form loaded
                     this.childPopup = false; // Preview window
                     _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'previewChanges', '_submitData'); // fixes loss of context for 'this' within methods
-                    _.extend(this, _.pick(options, 'formPath', 'previewPath')); // Pick options, passed to the controller
+                    _.extend(this, _.pick(options, 'formPath', 'previewPath', 'savePath')); // Pick options, passed to the controller
                     this.formModel = new HBFormData();
                     this.previewModel = new HBPreview();
                     this.previewModel.urlRoot = this.previewPath;
                     this.formModel.urlRoot = this.formPath;
+                    this.formModel.urlSave = this.savePath;
                 },
 
                 render: function() {
@@ -85,8 +86,9 @@
                     var values = {};
                     var formView = this;
                     if(event){ event.preventDefault(); }
-
-                    _.each(this.$('form').serializeArray(), function(input){
+                    this.childPopup = window.open('about:blank', 'Preview');
+                    this.$('form').get(0).setAttribute('action', this.previewPath);
+                    _.each(this.$('form').serializeArray(), function(input) {
                         values[ input.name ] = input.value;
                     });
 
@@ -95,7 +97,7 @@
                         files: this.$('form :file'),
                         data: values,
                         success: function(previewModel) {
-                            formView.childPopup = window.open(previewModel.previewPath);
+                            formView.$('form').get(0).setAttribute('action', formView.formModel.urlSave);
                             if (previewModel.get('status') == 'success') {
                                 /* TODO: prevent popup from blocking */
                                 formView.childPopup.document.write(previewModel.get('content'));
@@ -111,6 +113,7 @@
             var hb_edit_form = new HbForm({
                 el: $("#hb-form-container"),
                 formPath: '{{ path('get_home_banner_form') }}',
+                savePath: '{{ path('set_home_banner') }}',
                 previewPath:'{{ path('preview_home_banner') }}'
             });
 

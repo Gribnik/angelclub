@@ -109,7 +109,7 @@ class DefaultController extends Controller
                 /* TODO: Date Created and Date Updated */
                 $homebanner->upload();
 
-                $view = $this->render('CmsHomeBannerBundle:Default:banner.html.twig', array(
+                $view = $this->render('CmsHomeBannerBundle:Admin:banner_preview.html.twig', array(
                     'banner' => $homebanner
                 ));
 
