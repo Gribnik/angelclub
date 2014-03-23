@@ -1,11 +1,13 @@
-<form id="editpost" action="{% if post.id == '' %} {{ path('blog_post_create') }} {% else %} {{ path('blog_post_update', {'post_id': post.id}) }} {% endif %}"
-      method="post" {{ form_enctype(form) }}>
-    {{ form_errors(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.tagsfield) }}
-    {{ form_row(form.content) }}
+<script type="text/template" id="blog-form-template">
+    <form id="blog-form-edit" action="{% if post.id == '' %} {{ path('blog_post_create') }} {% else %} {{ path('blog_post_update', {'post_id': post.id}) }} {% endif %}"
+          method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.tagsfield) }}
+        {{ form_row(form.content) }}
 
-    {{ form_rest(form) }}
+        {{ form_rest(form) }}
 
-    <input type="submit" value="Submit" />
-</form>
+        <input type="submit" value="Submit" />
+    </form>
+</script>

@@ -1,7 +1,7 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
     {% for blog in blogs %}
-        <article class="blog-in-list">
+        <article class="blog-in-list" data-post-id="{{ blog.id }}">
             <h2><a href="{{ path('blog_post_view', { 'post_id': blog.id })  }}">{{ blog.name }}</a></h2>
             <div class="date">
                 <time datetime="{{ blog.dateCreated|date('c') }}">

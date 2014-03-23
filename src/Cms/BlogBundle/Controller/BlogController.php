@@ -72,11 +72,19 @@ class BlogController extends Controller
 
             $form = $this->createForm(new BlogpostType(), $post);
 
-            return $this->render('CmsBlogBundle:Blog:post_form.html.twig', array(
+            $view = $this->render('CmsBlogBundle:Blog:post_form.html.twig', array(
                 'form' => $form->createView(),
                 'post' => $post
             ));
+
+            $json['content'] = $view->getContent();
+            return $this->get('backpack')->sendJsonResponse($json);
+
         } else {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                "You don't have permission to complete this action"
+            );
             throw new AccessDeniedException();
         }
     }
@@ -107,14 +115,29 @@ class BlogController extends Controller
                 $this->_setTagsFromString($_postValues['tagsfield'], $post);
                 $em->persist($post);
                 $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Changes were saved!'
+                );
+
+                return $this->redirect($this->generateUrl('blog_post_view', array('post_id' => $post->getId())));
             } else {
+                $errors = $form->getErrorsAsString();
+
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Cannot save changes " . $errors
+                );
                 return $this->get('backpack')->sendJsonResponseText('The form has missing required fields', 'error');
             }
-        } else {
+        } else { /* TODO: consolidate this into the single unified method */
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                "You don't have permission to complete this action"
+            );
             throw new AccessDeniedException();
         }
-
-        return $this->get('backpack')->sendJsonResponseText('');
     }
 
     public function removeAction($post_id)
