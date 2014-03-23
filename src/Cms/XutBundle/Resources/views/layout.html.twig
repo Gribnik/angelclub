@@ -9,6 +9,16 @@
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/editpost.js') }}"></script>
+            <script type="text/javascript">
+                $(function() {
+                    var blog_new_form = new PostForm({
+                        el: $('#admin-toolbar'),
+                        viewPort: $('#post-new-wrapper'),
+                        formPath: '{{ path('blog_post_new') }}'
+                    });
+                });
+            </script>
         {% endblock %}
     {% endif %}
 {% endblock %}

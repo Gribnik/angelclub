@@ -121,7 +121,11 @@ class BlogController extends Controller
                     'Changes were saved!'
                 );
 
-                return $this->redirect($this->generateUrl('blog_post_view', array('post_id' => $post->getId())));
+                if ($post_id > 0) {
+                    return $this->redirect($this->generateUrl('blog_post_view', array('post_id' => $post->getId())));
+                } else {
+                    return $this->redirect($this->generateUrl('blog_index'));
+                }
             } else {
                 $errors = $form->getErrorsAsString();
 

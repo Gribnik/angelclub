@@ -19,63 +19,16 @@
     {% if is_granted('ROLE_ADMIN') %}
         <div id="post-edit-wrapper">
             <div id="blog-edit">Edit</div>
+            <div id="blog-edit-container"></div>
         </div>
     {% endif %}
     <div class="comments">
         Comments go here
     </div>
     <script type="text/javascript">
-        PostFormData = Backbone.Model.extend({
-            defaults: {
-                content: ''
-            }
-        });
-
-        PostForm = Backbone.View.extend({
-            events: {
-                'click #blog-edit' : 'toggleForm'
-            },
-
-            initialize: function(options) {
-                this.loaded = false; // Is the form loaded
-                _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm'); // fixes loss of context for 'this' within methods
-                _.extend(this, _.pick(options, 'formPath')); // Pick options, passed to the controller
-                this.formModel = new PostFormData();
-                this.formModel.urlRoot = this.formPath;
-            },
-
-            toggleForm: function() {
-                if (this.loaded === true) {
-                    $('#blog-form-edit').toggle(200);
-                } else {
-                    this.loadForm()
-                }
-            },
-
-            render: function() {
-                if (this.loaded === true) {
-                    this.$el.html(this.formModel.get("content"));
-                    var template = _.template( $("#blog-form-template").html(), {} );
-                    this.$el.html( template );
-                }
-            },
-
-            loadForm: function() {
-                var formView = this;
-                this.formModel.fetch({
-                    success: function(formModel) {
-                        formView.loaded = true;
-                        formView.render();
-                    },
-                    error: function() {
-                        location.reload();
-                    }
-                })
-            }
-        })
-
         var blog_edit_form = new PostForm({
             el: $("#post-edit-wrapper"),
+            viewPort: $('#blog-edit-container'),
             formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} '
         });
     </script>
