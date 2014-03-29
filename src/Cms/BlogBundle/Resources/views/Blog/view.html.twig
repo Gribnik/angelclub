@@ -40,7 +40,8 @@
         var blog_edit_form = new PostForm({
             el: $("#post-edit-wrapper"),
             viewPort: $('#blog-edit-container'),
-            formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} '
+            formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
+            editorImageUploadPath: '{{ path('blog_editor_image_upload') }}'
         });
     </script>
 {% endblock %}

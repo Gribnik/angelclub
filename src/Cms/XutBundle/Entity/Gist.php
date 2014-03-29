@@ -344,7 +344,7 @@ class Gist
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
-    protected function getUploadDir()
+    public function getUploadDir()
     {
         // get rid of the __DIR__ so it doesn't screw up
         // when displaying uploaded doc/image in the view.
@@ -388,10 +388,14 @@ class Gist
             $this->getFile()->getClientOriginalName()
         );
 
+        $originalName = $this->getFile()->getClientOriginalName();
+
         // set the path property to the filename where you've saved the file
-        $this->setFeaturedImage($this->getFile()->getClientOriginalName());
+        $this->setFeaturedImage($originalName);
 
         // clean up the file property as you won't need it anymore
         $this->file = null;
+
+        return $originalName;
     }
 }

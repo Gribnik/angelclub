@@ -53,3 +53,9 @@ blog_post_remove:
     requirements:
         _method: GET
         post_id: \d+
+
+blog_editor_image_upload:
+    pattern: /blog/image/upload
+    defaults: { _controller: CmsBlogBundle:Blog:uploadimage }
+    requirements:
+            _method: POST

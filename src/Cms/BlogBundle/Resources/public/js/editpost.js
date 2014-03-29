@@ -14,7 +14,7 @@ PostForm = Backbone.View.extend({
     initialize: function(options) {
         this.loaded = false; // Is the form loaded
         _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender'); // fixes loss of context for 'this' within methods
-        _.extend(this, _.pick(options, 'formPath', 'viewPort')); // Pick options, passed to the controller
+        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'editorImageUploadPath')); // Pick options, passed to the controller
         this.formModel = new PostFormData();
         this.formModel.urlRoot = this.formPath;
     },
@@ -31,9 +31,12 @@ PostForm = Backbone.View.extend({
         if (this.loaded === true) {
             this.viewPort.html(this.formModel.get("content"));
             var template = _.template( $('#blog-form-template').html(), {} );
+            var imagesUploadPath = this.editorImageUploadPath;
             this.viewPort.html(template).find('#blogpost_content').editable({
                 inlineMode: false,
-                autosave: true
+                autosave: true,
+                imageUploadURL: imagesUploadPath,
+                imageParams: {id: "wysiwyg"}
             });
         }
     },

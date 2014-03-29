@@ -5,6 +5,7 @@ use Cms\XutBundle\Entity\Gist;
 use Cms\XutBundle\Entity\Tag;
 use Cms\BlogBundle\Form\BlogpostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class BlogController extends Controller
@@ -161,6 +162,42 @@ class BlogController extends Controller
         } else {
             throw new AccessDeniedException();
         }
+    }
+
+    /**
+     * Uploads image from WYSISYG editor
+     *
+     * @return mixed
+     */
+    public function uploadimageAction()
+    {
+        $files = $this->getRequest()->files->all();
+        $uploadedFile = current($files);
+
+        $allowedTypes = array('image/jpeg', 'image/jpg', 'image/pjpeg', 'image/x-png', 'image/png');
+        if (in_array($uploadedFile->getMimeType(), $allowedTypes)) {
+            try {
+                $gist = new Gist();
+                $gist->setFile($uploadedFile);
+                $newFile = $gist->upload(); // TODO: Separate uploaded images gallery|blog|banner etc
+                $response = array(
+                    'status' => 'success',
+                    'link'   => $gist->getUploadDir() . $newFile
+                );
+            } catch (Exception $e) {
+                $response = array(
+                    'status' => 'error'
+                );
+            }
+
+        } else {
+            $response = array(
+                'status'  => 'error',
+                'code' => 'FILETYPE_NOT_ALLOWED'
+            );
+        }
+
+        return $this->get('backpack')->sendJsonResponse($response);
     }
 
     protected function _isAdmin()
