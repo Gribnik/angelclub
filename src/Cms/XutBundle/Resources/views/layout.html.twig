@@ -1,15 +1,21 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
     <link href="{{ asset('bundles/cmsxut/css/screen.css') }}" type="text/css" rel="stylesheet" />
+    {% if is_granted('ROLE_ADMIN') %}
+        <link href="{{ asset('bundles/cmsblog/css/froala_editor/froala_editor.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('bundles/cmsblog/css/froala_editor/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    {% endif %}
 {% endblock %}
 {% block admin_toolbar %}
     {% if is_granted('ROLE_ADMIN') %}
         {{ include("CmsXutBundle:Admin:toolbar.html.twig") }}
         {% block javascripts %}
+            {# TODO: isolate one bundle from another #}
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/editpost.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
             <script type="text/javascript">
                 $(function() {
                     var blog_new_form = new PostForm({

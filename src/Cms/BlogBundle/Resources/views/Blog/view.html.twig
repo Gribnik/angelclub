@@ -1,6 +1,17 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
     <article class="blog">
+        {# TODO: make as one cycle #}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-message notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="flash-message error">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
         <h1>{{ post.name }}</h1>
         <div class="date">
             <time datetime="{{ post.dateCreated|date('c') }}">
@@ -8,7 +19,7 @@
             </time>
         </div>
         <div class="content">
-            {{ post.content }}
+            {{ post.content | raw}}
         </div>
         <div class="tags">
             {% for tag in post.tags %}

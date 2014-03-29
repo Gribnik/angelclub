@@ -31,7 +31,10 @@ PostForm = Backbone.View.extend({
         if (this.loaded === true) {
             this.viewPort.html(this.formModel.get("content"));
             var template = _.template( $('#blog-form-template').html(), {} );
-            this.viewPort.html( template );
+            this.viewPort.html(template).find('#blogpost_content').editable({
+                inlineMode: false,
+                autosave: true
+            });
         }
     },
 

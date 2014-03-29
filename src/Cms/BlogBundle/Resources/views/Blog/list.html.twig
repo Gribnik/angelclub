@@ -1,5 +1,16 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
+    {# TODO: make as one cycle #}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash-message error">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     {% for blog in blogs %}
         <article class="blog-in-list" data-post-id="{{ blog.id }}">
             <h2><a href="{{ path('blog_post_view', { 'post_id': blog.id })  }}">{{ blog.name }}</a></h2>
