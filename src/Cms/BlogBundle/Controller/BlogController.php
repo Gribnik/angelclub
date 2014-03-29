@@ -154,11 +154,18 @@ class BlogController extends Controller
             if (!is_null($post)) {
                 $em->remove($post);
                 $em->flush();
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    "The post has been successfully removed"
+                );
             } else {
-                return $this->get('backpack')->sendJsonResponseText('Post with requested id does not exist', 'error');
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Post with requested id does not exist"
+                );
             }
-
-            return $this->get('backpack')->sendJsonResponseText('');
+            /* TODO: remove all images connected to the post somehow */
+            return $this->redirect($this->generateUrl('blog_index'));
         } else {
             throw new AccessDeniedException();
         }

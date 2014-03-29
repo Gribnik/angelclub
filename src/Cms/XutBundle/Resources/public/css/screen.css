@@ -16,7 +16,7 @@
     background-color: darksalmon;
 }
 
-#blog-edit {
+.blog-action {
     cursor: pointer;
     color: #0088CC;
 }

@@ -8,13 +8,14 @@ PostFormData = Backbone.Model.extend({
 PostForm = Backbone.View.extend({
     events: {
         'click #blog-edit' : 'toggleForm',
+        'click #blog-remove' : 'removePost',
         'click a#blog-new' : 'toggleForm'
     },
 
     initialize: function(options) {
         this.loaded = false; // Is the form loaded
-        _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender'); // fixes loss of context for 'this' within methods
-        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'editorImageUploadPath')); // Pick options, passed to the controller
+        _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender', 'removePost'); // fixes loss of context for 'this' within methods
+        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'editorImageUploadPath', 'removePostPath')); // Pick options, passed to the controller
         this.formModel = new PostFormData();
         this.formModel.urlRoot = this.formPath;
     },
@@ -60,5 +61,12 @@ PostForm = Backbone.View.extend({
                 location.reload();
             }
         })
+    },
+
+    removePost: function() {
+        var sure = confirm("Are you really want to get rid of this shit?")
+        if (sure == true) {
+            window.location = this.removePostPath;
+        }
     }
 });

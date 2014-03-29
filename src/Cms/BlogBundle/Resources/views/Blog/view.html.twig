@@ -29,7 +29,8 @@
     </article>
     {% if is_granted('ROLE_ADMIN') %}
         <div id="post-edit-wrapper">
-            <div id="blog-edit">Edit</div>
+            <div class="blog-action" id="blog-remove">Remove</div>
+            <div class="blog-action" id="blog-edit">Edit</div>
             <div id="blog-edit-container"></div>
         </div>
     {% endif %}
@@ -41,7 +42,8 @@
             el: $("#post-edit-wrapper"),
             viewPort: $('#blog-edit-container'),
             formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
-            editorImageUploadPath: '{{ path('blog_editor_image_upload') }}'
+            editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
+            removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'
         });
     </script>
 {% endblock %}
