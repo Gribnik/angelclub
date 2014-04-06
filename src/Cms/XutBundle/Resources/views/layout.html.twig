@@ -9,30 +9,32 @@
 {% block admin_toolbar %}
     {% if is_granted('ROLE_ADMIN') %}
         {{ include("CmsXutBundle:Admin:toolbar.html.twig") }}
-        {% block javascripts %}
-            {# TODO: isolate one bundle from another #}
-            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/editpost.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
-            <script type="text/javascript">
-                $(function() {
-                    var blog_new_form = new PostForm({
-                        el: $('#admin-new-blogpost'),
-                        viewPort: $('#post-new-wrapper'),
-                        template: '#blog-form-template',
-                        formPath: '{{ path('blog_post_new') }}'
-                    });
-
-                    var image_new_form = new PostForm({
-                        el: $('#admin-new-image'),
-                        viewPort: $('#image-new-wrapper'),
-                        template: '#image-form-template',
-                        formPath: '{{ path('gallery_image_new') }}'
-                    });
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {# TODO: isolate one bundle from another #}
+    <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
+    {% if is_granted('ROLE_ADMIN') %}
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/gistedit.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                var blog_new_form = new PostForm({
+                    el: $('#admin-new-blogpost'),
+                    viewPort: $('#post-new-wrapper'),
+                    template: '#blog-form-template',
+                    formPath: '{{ path('blog_post_new') }}'
                 });
-            </script>
-        {% endblock %}
+
+                var image_new_form = new PostForm({
+                    el: $('#admin-new-image'),
+                    viewPort: $('#image-new-wrapper'),
+                    template: '#image-form-template',
+                    formPath: '{{ path('gallery_image_new') }}'
+                });
+            });
+        </script>
     {% endif %}
 {% endblock %}
