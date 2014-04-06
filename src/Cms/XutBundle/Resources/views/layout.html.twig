@@ -21,14 +21,14 @@
         <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
         <script type="text/javascript">
             $(function() {
-                var blog_new_form = new PostForm({
+                var blog_new_form = new gistEditForm({
                     el: $('#admin-new-blogpost'),
                     viewPort: $('#post-new-wrapper'),
                     template: '#blog-form-template',
                     formPath: '{{ path('blog_post_new') }}'
                 });
 
-                var image_new_form = new PostForm({
+                var image_new_form = new gistEditForm({
                     el: $('#admin-new-image'),
                     viewPort: $('#image-new-wrapper'),
                     template: '#image-form-template',

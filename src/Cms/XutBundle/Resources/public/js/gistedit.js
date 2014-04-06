@@ -7,7 +7,9 @@ PostFormData = Backbone.Model.extend({
     }
 });
 
-PostForm = Backbone.View.extend({
+/* TODO: make an AJAX loading progress logic */
+
+gistEditForm = Backbone.View.extend({
     /* TODO: pass form control link/button instead of list each here */
     events: {
         'click #blog-edit' : 'toggleForm',

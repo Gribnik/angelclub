@@ -37,14 +37,20 @@
     <div class="comments">
         Comments go here
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
     <script type="text/javascript">
-        var blog_edit_form = new PostForm({
-            el: $("#post-edit-wrapper"),
-            viewPort: $('#blog-edit-container'),
-            template: '#blog-form-template',
-            formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
-            editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
-            removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'
+        $(function() {
+            var blog_edit_form = new gistEditForm({
+                el: $("#post-edit-wrapper"),
+                viewPort: $('#blog-edit-container'),
+                template: '#blog-form-template',
+                formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
+                editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
+                removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'
+            });
         });
     </script>
 {% endblock %}
