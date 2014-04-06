@@ -6,16 +6,18 @@ PostFormData = Backbone.Model.extend({
 });
 
 PostForm = Backbone.View.extend({
+    /* TODO: pass form control link/button instead of list each here */
     events: {
         'click #blog-edit' : 'toggleForm',
-        'click #blog-remove' : 'removePost',
-        'click a#blog-new' : 'toggleForm'
+        'click #blog-remove' : 'removeItem',
+        'click a#blog-new' : 'toggleForm',
+        'click a#image-new' : 'toggleForm'
     },
 
     initialize: function(options) {
         this.loaded = false; // Is the form loaded
-        _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender', 'removePost'); // fixes loss of context for 'this' within methods
-        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'editorImageUploadPath', 'removePostPath')); // Pick options, passed to the controller
+        _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender', 'removeItem'); // fixes loss of context for 'this' within methods
+        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'template', 'editorImageUploadPath', 'removePostPath')); // Pick options, passed to the controller
         this.formModel = new PostFormData();
         this.formModel.urlRoot = this.formPath;
     },
@@ -31,7 +33,7 @@ PostForm = Backbone.View.extend({
     render: function() {
         if (this.loaded === true) {
             this.viewPort.html(this.formModel.get("content"));
-            var template = _.template( $('#blog-form-template').html(), {} );
+            var template = _.template( $(this.template).html(), {} );
             var imagesUploadPath = this.editorImageUploadPath;
             this.viewPort.html(template).find('#blogpost_content').editable({
                 inlineMode: false,
@@ -63,7 +65,7 @@ PostForm = Backbone.View.extend({
         })
     },
 
-    removePost: function() {
+    removeItem: function() {
         var sure = confirm("Are you really want to get rid of this shit?")
         if (sure == true) {
             window.location = this.removePostPath;

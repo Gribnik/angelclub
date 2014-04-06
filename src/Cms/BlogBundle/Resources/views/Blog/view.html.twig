@@ -41,6 +41,7 @@
         var blog_edit_form = new PostForm({
             el: $("#post-edit-wrapper"),
             viewPort: $('#blog-edit-container'),
+            template: '#blog-form-template',
             formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
             editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
             removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'

@@ -90,11 +90,18 @@ class DefaultController extends Controller
 
             $form = $this->createForm(new ImageType(), $image);
 
-            return $this->render('CmsGalleryBundle:Default:form.html.twig', array(
+            $view =  $this->render('CmsGalleryBundle:Default:form.html.twig', array(
                 'form' => $form->createView(),
                 'image' => $image
             ));
+            $json['content'] = $view->getContent();
+
+            return $this->get('backpack')->sendJsonResponse($json);
         } else {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                "You don't have permission to complete this action"
+            );
             throw new AccessDeniedException();
         }
     }
@@ -128,14 +135,26 @@ class DefaultController extends Controller
                 $image->upload();
                 $em->persist($image);
                 $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Changes were saved!'
+                );
+
+                return $this->redirect($this->generateUrl('gallery_index'));
+
             } else {
+                $errors = $form->getErrorsAsString();
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Cannot save changes " . $errors
+                );
+
                 return $this->get('backpack')->sendJsonResponseText('The form has missing required fields', 'error');
             }
         } else {
             throw new AccessDeniedException();
         }
-
-        return $this->get('backpack')->sendJsonResponseText('');
     }
 
     protected function _setTagsFromString($tags, $image)

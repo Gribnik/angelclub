@@ -19,9 +19,17 @@
             <script type="text/javascript">
                 $(function() {
                     var blog_new_form = new PostForm({
-                        el: $('#admin-toolbar'),
+                        el: $('#admin-new-blogpost'),
                         viewPort: $('#post-new-wrapper'),
+                        template: '#blog-form-template',
                         formPath: '{{ path('blog_post_new') }}'
+                    });
+
+                    var image_new_form = new PostForm({
+                        el: $('#admin-new-image'),
+                        viewPort: $('#image-new-wrapper'),
+                        template: '#image-form-template',
+                        formPath: '{{ path('gallery_image_new') }}'
                     });
                 });
             </script>

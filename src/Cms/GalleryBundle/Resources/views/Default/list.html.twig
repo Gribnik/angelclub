@@ -1,5 +1,16 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
+    {# TODO: make as one cycle #}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="flash-message error">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
     {% for image in images %}
         <article class="blog-in-list">
             <div class="image">

@@ -21,7 +21,7 @@
             </div>
             <div class="content">
                 {# TODO: load value from config #}
-                {{ blog.content(500) }}
+                {{ blog.content(500) | raw }}
             </div>
             <div class="tags">
                 Tags:
