@@ -1,4 +1,6 @@
 /* FIXME: that script might be included twice for some reason */
+var gistEditForms = []; // A stack of views rendered on current page
+
 PostFormData = Backbone.Model.extend({
     defaults: {
         content: ''
@@ -16,6 +18,7 @@ PostForm = Backbone.View.extend({
 
     initialize: function(options) {
         this.loaded = false; // Is the form loaded
+        gistEditForms.push(this); // Add this view to the global views stack
         _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender', 'removeItem'); // fixes loss of context for 'this' within methods
         _.extend(this, _.pick(options, 'formPath', 'viewPort', 'template', 'editorImageUploadPath', 'removePostPath')); // Pick options, passed to the controller
         this.formModel = new PostFormData();
@@ -23,8 +26,16 @@ PostForm = Backbone.View.extend({
     },
 
     toggleForm: function() {
+        /* Hide other opened views */
+        var currentViewId = this.cid;
+        gistEditForms.forEach(function(view) {
+            if (view.cid != currentViewId) {
+                view.unrender();
+            }
+        });
+
         if (this.loaded === true) {
-            $('#blog-form-edit').toggle(200);
+            $(this.viewPort).toggle(200);
         } else {
             this.loadForm()
         }
@@ -46,9 +57,7 @@ PostForm = Backbone.View.extend({
 
     unrender: function() {
         if (this.loaded === true) {
-            this.toggleForm();
-            this.viewPort.html('');
-            this.loaded = false;
+            $(this.viewPort).hide(200);
         }
     },
 
