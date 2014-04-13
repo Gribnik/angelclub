@@ -16,7 +16,7 @@
     background-color: darksalmon;
 }
 
-.blog-action {
+.blog-action, .gallery-action {
     cursor: pointer;
     color: #0088CC;
 }

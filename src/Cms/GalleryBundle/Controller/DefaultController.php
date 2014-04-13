@@ -45,6 +45,8 @@ class DefaultController extends Controller
     {
         // TODO: Reduce queries count, connected to the tags
 
+        // FIXME: Tags for images are not being displayed correctly
+
         $em = $this->getDoctrine()->getManager();
         $images = $em->createQueryBuilder()
             ->select('bl')

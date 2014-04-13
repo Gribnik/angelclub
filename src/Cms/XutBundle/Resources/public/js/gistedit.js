@@ -15,7 +15,8 @@ gistEditForm = Backbone.View.extend({
         'click #blog-edit' : 'toggleForm',
         'click #blog-remove' : 'removeItem',
         'click a#blog-new' : 'toggleForm',
-        'click a#image-new' : 'toggleForm'
+        'click a#image-new' : 'toggleForm',
+        'click div.image-edit' : 'toggleForm'
     },
 
     initialize: function(options) {
@@ -59,7 +60,8 @@ gistEditForm = Backbone.View.extend({
 
     unrender: function() {
         if (this.loaded === true) {
-            $(this.viewPort).hide(200);
+            $(this.viewPort).hide(200).html('');
+            this.loaded = false;
         }
     },
 

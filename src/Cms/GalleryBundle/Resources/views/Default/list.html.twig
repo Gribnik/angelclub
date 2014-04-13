@@ -16,7 +16,15 @@
             <div class="image">
                 <img src="{{ image.getWebPath() }}" alt="">
             </div>
-            <div>{{ image.content }}<div>
+            <div>{{ image.content }}</div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="image-edit-wrapper"
+                     data-form-url="{{ path('gallery_image_edit', { 'image_id': image.id }) }}">
+                    <div class="gallery-action image-remove">Remove</div>
+                    <div class="gallery-action image-edit">Edit</div>
+                    <div class="image-edit-container"></div>
+                </div>
+            {% endif %}
             <div class="tags">
                 {% for tag in image.tags %}
                     <a href="{{ path('gallery_list_images_by_tag', { 'tagname': tag.name }) }}">{{ tag.name }}</a>
@@ -26,4 +34,28 @@
     {% else %}
         <p class="notfound">There are no images :(</p>
     {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script type="text/javascript">
+            /* TODO: Move to a separate file */
+            $(function() {
+                if ($('.image-edit-wrapper').length > 0) {
+                    var editForms = [];
+                    $('.image-edit-wrapper').each(function() {
+                        var wrapper = $(this);
+                        var imageFormPath = wrapper.data('form-url');
+                        var imageEditForm = new gistEditForm({
+                            el: wrapper,
+                            viewPort: wrapper.find('.image-edit-container'),
+                            template: '#image-form-template',
+                            formPath: imageFormPath
+                        });
+                        editForms.push(imageEditForm)
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 {% endblock %}

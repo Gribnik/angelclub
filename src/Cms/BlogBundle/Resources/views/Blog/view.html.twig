@@ -41,16 +41,18 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript">
-        $(function() {
-            var blog_edit_form = new gistEditForm({
-                el: $("#post-edit-wrapper"),
-                viewPort: $('#blog-edit-container'),
-                template: '#blog-form-template',
-                formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
-                editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
-                removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'
+    {% if is_granted('ROLE_ADMIN') %}
+        <script type="text/javascript">
+            $(function() {
+                var blog_edit_form = new gistEditForm({
+                    el: $("#post-edit-wrapper"),
+                    viewPort: $('#blog-edit-container'),
+                    template: '#blog-form-template',
+                    formPath: '{{ path('blog_post_edit', {'post_id': post.id}) }} ',
+                    editorImageUploadPath: '{{ path('blog_editor_image_upload') }}',
+                    removePostPath: '{{ path('blog_post_remove', {'post_id': post.id}) }}'
+                });
             });
-        });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
