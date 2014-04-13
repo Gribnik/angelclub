@@ -45,8 +45,6 @@ class DefaultController extends Controller
     {
         // TODO: Reduce queries count, connected to the tags
 
-        // FIXME: Tags for images are not being displayed correctly
-
         $em = $this->getDoctrine()->getManager();
         $images = $em->createQueryBuilder()
             ->select('bl')
@@ -161,14 +159,35 @@ class DefaultController extends Controller
 
     protected function _setTagsFromString($tags, $image)
     {
+        // TODO: explode this method into the smallest parts
+
         $newTags = array();
         if (!empty($tags)) {
             $em = $this->getDoctrine()->getManager();
             $tagsArray = explode(',', $tags);
             array_walk($tagsArray, array($this, '_normalizeTagNames'));
 
+            /* Get previous gist tags */
+            $oldTags = $image->getTags();
+            $oldTagsArray = array();
+            foreach ($oldTags as $_oldTag) {
+                array_push($oldTagsArray, $_oldTag->getName());
+                /* Remove the old tags from the post if necessary */
+                if (!in_array($_oldTag->getName(), $tagsArray)) {
+                    $image->removeTag($_oldTag);
+                    // TODO: make an observer to check if removed tags are still being used somewhere
+                }
+            }
+
+            /* If there are only old tags - no reason to proceed */
+            if (count(array_diff($tagsArray, $oldTagsArray)) < 1) {
+                return;
+            }
+
             /* Get all tags */
             $allTags = $em->getRepository('CmsXutBundle:Tag')->findAll();
+
+            // TODO: get all tags only by type */
 
             /* Add tags to the post */
             foreach ($allTags as $_tag) {
@@ -176,8 +195,10 @@ class DefaultController extends Controller
                     break;
                 }
                 if (false !== ($key = array_search($_tag->getName(), $tagsArray))) {
-                    array_push($newTags, $_tag->getId());
-                    $image->addTag($_tag);
+                    if (!in_array($_tag->getName(), $oldTagsArray)) {
+                        array_push($newTags, $_tag->getId());
+                        $image->addTag($_tag);
+                    }
                     unset($tagsArray[$key]);
                 }
             }
@@ -189,14 +210,17 @@ class DefaultController extends Controller
                     $tag->setType('image');
                     $tag->setName($_tag);
                     $em->persist($tag);
+                    $em->flush();
+                    $image->addTag($tag); // TODO: might be optimized a bit
                 }
-                $em->flush();
+
             }
         } else {
             /* If the tags string is empty, remove all tags */
-            $image->removeAllTags(); /* FIXME: */
+            $image->removeAllTags();
         }
     }
+
 
     public function removeAction($image_id)
     {
