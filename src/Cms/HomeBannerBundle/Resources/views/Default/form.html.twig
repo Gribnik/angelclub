@@ -2,8 +2,8 @@
     <a href="#" id="hb-change-button">Change</a>
     <form id="hb-form" action="{{ path('set_home_banner') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
-        {{ form_row(form.file) }}
-        {{ form_row(form.description) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.content) }}
 
         {{ form_rest(form) }}
         <input type="submit" id="hb-save-button" value="Save" />

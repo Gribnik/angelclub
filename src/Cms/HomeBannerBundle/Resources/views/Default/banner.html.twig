@@ -1,10 +1,5 @@
 <div class="home-banner-wrapper">
     {% if is_granted('ROLE_ADMIN') %}
-        {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/jquery.iframe-transport.js') }}"></script>
-        {% endblock %}
-
         {# TODO: make as one cycle #}
         {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message notice">
@@ -21,15 +16,7 @@
             <a href="#" id="hb-change-button">Change</a>
         </div>
 
-        <script type="text/javascript">
-            var hb_edit_form = new HbForm({
-                el: $("#hb-form-container"),
-                formPath: '{{ path('get_home_banner_form') }}',
-                savePath: '{{ path('set_home_banner') }}',
-                previewPath:'{{ path('preview_home_banner') }}'
-            });
-        </script>
     {% endif %}
-    <img id="homme_banner_image" src="{{ banner.getWebPath() }}" alt="Amabilis insania" />
-    <div class="banner-quote">{{ banner.getDescription() }}</div>
+    The slider goes here
+    <div class="banner-quote">{{ banner.getContent() }}</div>
 </div>

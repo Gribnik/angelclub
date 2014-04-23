@@ -2,7 +2,7 @@
 
 namespace Cms\HomeBannerBundle\Controller;
 
-use Cms\HomeBannerBundle\Entity\Homebanner;
+use Cms\XutBundle\Entity\Gist;
 use Cms\HomeBannerBundle\Form\HomebannerType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +26,6 @@ class DefaultController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-
-                /* TODO: make max upload size */
-                /* TODO: Date Created and Date Updated */
-                $homebanner->upload();
 
                 $em->persist($homebanner);
                 $em->flush();
@@ -105,9 +101,6 @@ class DefaultController extends Controller
 
             $form->handleRequest($request);
             if ($form->isValid()) {
-                /* TODO: make max upload size */
-                /* TODO: Date Created and Date Updated */
-                $homebanner->upload();
 
                 $view = $this->render('CmsHomeBannerBundle:Admin:banner_preview.html.twig', array(
                     'banner' => $homebanner
@@ -144,12 +137,14 @@ class DefaultController extends Controller
     protected function _getInitialBanner()
     {
         $em = $this->getDoctrine()->getManager();
-        $banner = $em->getRepository('CmsHomeBannerBundle:Homebanner')->findOneById(1);
+        $banner = $em->getRepository('CmsXutBundle:Gist')->findOneByType('homebanner');
         $currentDate = date("Y-m-d H:i:s");
-        if (is_null($banner)) {
-            $banner = new Homebanner();
+        if (NULL === $banner) {
+            $banner = new Gist();
+            $banner->setType('homebanner');
             $banner->setDateCreated(new \DateTime($currentDate));
         }
+
         $banner->setDateUpdated(new \DateTime($currentDate));
         return $banner;
     }

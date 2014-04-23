@@ -5,3 +5,21 @@
     <a href="{{ path('blog_index') }}" title="Blog">Blog</a>
     <a href="{{ path('gallery_index') }}" title="Blog">Gallery</a>
 {% endblock %}
+
+{% block javascripts %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ parent() }}
+        <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/jquery.iframe-transport.js') }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                var hb_edit_form = new HbForm({
+                    el: $("#hb-form-container"),
+                    formPath: '{{ path('get_home_banner_form') }}',
+                    savePath: '{{ path('set_home_banner') }}',
+                    previewPath:'{{ path('preview_home_banner') }}'
+                });
+            });
+        </script>
+    {% endif %}
+{% endblock %}
