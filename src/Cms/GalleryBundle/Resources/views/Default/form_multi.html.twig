@@ -1,0 +1,10 @@
+<script type="text/template" id="image-form-template">
+    <form id="gallery-image" action="{{ path('gallery_image_create') }}" method="post" {{ form_enctype(form) }} novalidate="">
+        {{ form_errors(form) }}
+        <input type="file" name="files[]" multiple>
+        <input type="submit" value="Submit" />
+    </form>
+</script>
+<script type="text/javascript">
+
+</script>

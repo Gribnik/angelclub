@@ -17,6 +17,11 @@
     {% if is_granted('ROLE_ADMIN') %}
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jqueryui/js/jquery-ui-1.10.4.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/fileupload/js/jquery.fileupload.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/fileupload/js/jquery.iframe-transport.js') }}"></script>
+
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/gistedit.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
         <script type="text/javascript">
@@ -32,7 +37,19 @@
                     el: $('#admin-new-image'),
                     viewPort: $('#image-new-wrapper'),
                     template: '#image-form-template',
-                    formPath: '{{ path('gallery_image_new') }}'
+                    formPath: '{{ path('gallery_image_new') }}',
+                    renderCallback: function() {
+                       $('#gallery-image').fileupload(
+                        {
+                            dataType: 'json',
+                            url:'{{ path('gallery_images_upload') }}',
+                            done: function (e, data) {
+                                $.each(data.result.files, function (index, file) {
+                                    $('<p/>').text(file.name).appendTo(document.body);
+                                });
+                            }
+                        });
+                    }
                 });
             });
         </script>

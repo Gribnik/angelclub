@@ -30,6 +30,12 @@ gallery_image_create:
     requirements:
         _method: POST
 
+gallery_images_upload:
+    pattern: /gallery/upload
+    defaults: { _controller: CmsGalleryBundle:Default:upload }
+    requirements:
+        _method: POST
+
 gallery_image_update:
     pattern: /gallery/update/{image_id}
     defaults: { _controller: CmsGalleryBundle:Default:save }

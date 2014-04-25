@@ -23,7 +23,7 @@ gistEditForm = Backbone.View.extend({
         this.loaded = false; // Is the form loaded
         gistEditForms.push(this); // Add this view to the global views stack
         _.bindAll(this, 'initialize', 'render', 'toggleForm', 'loadForm', 'unrender', 'removeItem'); // fixes loss of context for 'this' within methods
-        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'template', 'editorImageUploadPath', 'removePostPath')); // Pick options, passed to the controller
+        _.extend(this, _.pick(options, 'formPath', 'viewPort', 'template', 'editorImageUploadPath', 'removePostPath', 'renderCallback')); // Pick options, passed to the controller
         this.formModel = new PostFormData();
         this.formModel.urlRoot = this.formPath;
     },
@@ -55,6 +55,9 @@ gistEditForm = Backbone.View.extend({
                 imageUploadURL: imagesUploadPath,
                 imageParams: {id: "wysiwyg"}
             });
+        }
+        if (typeof this.renderCallback !== 'undefined') {
+            this.renderCallback();
         }
     },
 
