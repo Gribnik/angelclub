@@ -1,0 +1,10 @@
+<div class="img-preview">
+    <img src="{{ image.getWebPath() }}" alt="" width="300">
+</div>
+<div class="image-data">
+    {{ form_errors(form) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.tagsfield) }}
+    <input type="hidden" name="image_id" value="{{ image.getId() }}">
+    <input type="hidden" name="is_removed" value="">
+</div>

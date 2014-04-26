@@ -16,6 +16,6 @@ class ImageType extends AbstractType
     {
         $builder->add('file', 'file', array('required' => false));
         $builder->add('content', 'textarea', array('required' => false));
-        $builder->add('tagsfield', 'text', array('required' => false));
+        $builder->add('tagsfield', 'text', array('required' => false), 'label');
     }
 }

@@ -161,24 +161,35 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $files = $this->getRequest()->files->all();
-        $json['files'] = array();
+        $json = array();
         if (count($files) > 0) {
             $currentDate = date("Y-m-d H:i:s");
             foreach ($files as $_file) {
-                $gist = new Gist();
-                $gist->setFile(current($_file));
-                $newFile = $gist->upload();
-                array_push($json['files'], array('name' => $newFile));
-                $gist->setType('image')
+                $image = new Gist();
+                $image->setFile(current($_file));
+                $newFile = $image->upload();
+                $image->setType('image')
                     ->setName($newFile)
                     ->setDateCreated(new \DateTime($currentDate))
                     ->setDateUpdated(new \DateTime($currentDate));
-                $em->persist($gist);
+                $em->persist($image);
             }
             $em->flush();
         }
+
+
+        $form = $this->createForm(new ImageType(), $image);
+        $view =  $this->render('CmsGalleryBundle:Default:response_form.html.twig', array(
+            'form'      => $form->createView(),
+            'image'     => $image,
+        ));
+
+        $json['imageForm'] = $view->getContent();
+
+
         return $this->get('backpack')->sendJsonResponse($json);
     }
+
 
     protected function _setTagsFromString($tags, $image)
     {
