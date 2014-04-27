@@ -36,6 +36,12 @@ gallery_images_upload:
     requirements:
         _method: POST
 
+gallery_images_massedit:
+    pattern: /gallery/massedit
+    defaults: { _controller: CmsGalleryBundle:Default:massEdit }
+    requirements:
+        _method: POST
+
 gallery_image_update:
     pattern: /gallery/update/{image_id}
     defaults: { _controller: CmsGalleryBundle:Default:save }

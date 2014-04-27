@@ -1,11 +1,9 @@
 <script type="text/template" id="image-form-template">
-    <form id="gallery-image" action="{{ path('gallery_image_create') }}" method="post" {{ form_enctype(form) }} novalidate="">
+    <form id="gallery-images" action="{{ path('gallery_image_create') }}" method="post" {{ form_enctype(form) }} novalidate="">
         {{ form_errors(form) }}
         <input type="file" name="files[]" multiple>
         <div id="uploaded-images-wrapper"></div>
-        <input type="submit" value="Submit" />
+        <input type="button" value="Save" id="save-upload" />
+        <input type="button" value="Cancel" id="cancel-upload" />
     </form>
-</script>
-<script type="text/javascript">
-
 </script>

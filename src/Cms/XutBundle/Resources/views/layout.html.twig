@@ -21,10 +21,48 @@
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jqueryui/js/jquery-ui-1.10.4.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/fileupload/js/jquery.fileupload.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/fileupload/js/jquery.iframe-transport.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/cmsgallery/js/upload.js') }}"></script>
+
 
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/gistedit.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsblog/js/froala_editor/froala_editor.min.js') }}"></script>
         <script type="text/javascript">
+            var saveImagesBinded = false;
+            function imageUploadCallback(data, savePath)
+            {
+                $('#uploaded-images-wrapper').append(data.result.imageForm);
+
+                if (false === saveImagesBinded) {
+                    $('#save-upload').click(function() {
+                        saveUploadedImages(savePath)
+                    });
+                    saveImagesBinded = true;
+                }
+            }
+
+            function saveUploadedImages(savePath)
+            {
+                var uploadedItems = $('.uploaded-image-row');
+                var uploadedItemsAdditionalData = [];
+                console.log(uploadedItems);
+                if (uploadedItems.length > 0) {
+                    uploadedItems.each(function() {
+                        uploadedItemsAdditionalData.push($(this).serialize());
+                    });
+
+                    $.ajax({
+                        url: savePath,
+                        data: { imagesDetails: uploadedItemsAdditionalData },
+                        type: "POST"
+                    }).done( function() {
+                        location.reload();
+                    })
+                } else {
+                    alert('There are no items to save');
+                }
+                return false;
+            }
+
             $(function() {
                 var blog_new_form = new gistEditForm({
                     el: $('#admin-new-blogpost'),
@@ -39,12 +77,12 @@
                     template: '#image-form-template',
                     formPath: '{{ path('gallery_image_new') }}',
                     renderCallback: function() {
-                       $('#gallery-image').fileupload(
+                       $('#gallery-images').fileupload(
                         {
                             dataType: 'json',
                             url:'{{ path('gallery_images_upload') }}',
-                            done: function (e, data) {
-                               $('#uploaded-images-wrapper').append(data.result.imageForm);
+                            done: function(e, data) {
+                                imageUploadCallback(data, '{{ path('gallery_images_massedit') }}');
                             }
                         });
                     }

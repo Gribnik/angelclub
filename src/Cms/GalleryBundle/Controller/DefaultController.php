@@ -191,6 +191,53 @@ class DefaultController extends Controller
     }
 
 
+    public function massEditAction()
+    {
+        $params = $this->getRequest()->request->all();
+        if (isset($params['imagesDetails'])) {
+            $em = $this->getDoctrine()->getManager();
+            foreach ($params['imagesDetails'] as $_imageDetails) {
+                $details = array();
+                parse_str($_imageDetails, $details);
+                if ($details['image_id'] > 0) {
+                    $image = $em->getRepository('CmsXutBundle:Gist')->find($details['image_id'] );
+                    if (NULL !== $image) {
+                        $haschanges = false;
+                        if (empty($details['is_removed'])) {
+                            if (!empty($details['content'])) {
+                                $image->setContent($details['content']);
+                                $haschanges = true;
+                            }
+                            if (!empty($details['tagsfield'])) {
+                                $this->_setTagsFromString($details['tagsfield'], $image);
+                                $haschanges = true;
+                            }
+
+                            if (true === $haschanges) {
+                                $em->persist($image);
+                            }
+
+                        } else {
+                            $em->remove();
+                        }
+                    }
+                }
+            }
+
+            $em->flush();
+
+        }
+
+        $json['status'] = 'success';
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Changes were saved!'
+        );
+
+        return $this->get('backpack')->sendJsonResponse($json);
+    }
+
+
     protected function _setTagsFromString($tags, $image)
     {
         // TODO: explode this method into the smallest parts
