@@ -36,6 +36,7 @@
                     $('#save-upload').click(function() {
                         saveUploadedImages(savePath)
                     });
+                    $('body').delegate('.uploaded-image-remove', 'click', function() { observeRemoveAction($(this)) })
                     saveImagesBinded = true;
                 }
             }
@@ -44,7 +45,6 @@
             {
                 var uploadedItems = $('.uploaded-image-row');
                 var uploadedItemsAdditionalData = [];
-                console.log(uploadedItems);
                 if (uploadedItems.length > 0) {
                     uploadedItems.each(function() {
                         uploadedItemsAdditionalData.push($(this).serialize());
@@ -61,6 +61,15 @@
                     alert('There are no items to save');
                 }
                 return false;
+            }
+
+            function observeRemoveAction(element)
+            {
+                var imageRow = element.parents('.uploaded-image-row');
+                var removeMark = imageRow.find('input[name="is_removed"]');
+                removeMark.val('1');
+                // TODO: Make an checkbox instead of hide entire row
+                imageRow.toggle('100');
             }
 
             $(function() {

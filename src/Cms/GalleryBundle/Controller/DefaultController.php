@@ -218,7 +218,7 @@ class DefaultController extends Controller
                             }
 
                         } else {
-                            $em->remove();
+                            $em->remove($image);
                         }
                     }
                 }
