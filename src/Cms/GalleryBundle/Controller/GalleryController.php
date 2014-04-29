@@ -8,7 +8,7 @@ use Cms\GalleryBundle\Form\ImageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class DefaultController extends Controller
+class GalleryController extends Controller
 {
     public function indexAction()
     {
@@ -28,7 +28,7 @@ class DefaultController extends Controller
         $image = $em->getRepository('CmsXutBundle:Gist')->findOneById($image_id);
 
         if (!is_null($image)) {
-            return $this->render('CmsGalleryBundle:Default:view.html.twig', array(
+            return $this->render('CmsGalleryBundle:Gallery:view.html.twig', array(
                 'image' => $image
             ));
         } else {
@@ -65,7 +65,7 @@ class DefaultController extends Controller
         $images = $images->getQuery()
             ->getResult();
 
-        return $this->render('CmsGalleryBundle:Default:list.html.twig', array(
+        return $this->render('CmsGalleryBundle:Gallery:list.html.twig', array(
             'images' => $images
         ));
     }
@@ -89,11 +89,17 @@ class DefaultController extends Controller
             }
 
             $form = $this->createForm(new ImageType(), $image);
-
-            $view =  $this->render('CmsGalleryBundle:Default:form_multi.html.twig', array(
-                'form' => $form->createView(),
-                'image' => $image
-            ));
+            if ($image_id > 0) {
+                $view =  $this->render('CmsGalleryBundle:Gallery:form.html.twig', array(
+                    'form' => $form->createView(),
+                    'image' => $image
+                ));
+            } else {
+                $view =  $this->render('CmsGalleryBundle:Gallery:form_multi.html.twig', array(
+                    'form' => $form->createView(),
+                    'image' => $image
+                ));
+            }
             $json['content'] = $view->getContent();
 
             return $this->get('backpack')->sendJsonResponse($json);
@@ -179,7 +185,7 @@ class DefaultController extends Controller
 
 
         $form = $this->createForm(new ImageType(), $image);
-        $view =  $this->render('CmsGalleryBundle:Default:response_form.html.twig', array(
+        $view =  $this->render('CmsGalleryBundle:Gallery:response_form.html.twig', array(
             'form'      => $form->createView(),
             'image'     => $image,
         ));

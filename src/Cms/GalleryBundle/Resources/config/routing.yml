@@ -1,56 +1,56 @@
 gallery_index:
     pattern:  /gallery
-    defaults: { _controller: CmsGalleryBundle:Default:index }
+    defaults: { _controller: CmsGalleryBundle:Gallery:index }
 
 gallery_list_images:
     pattern:  /gallery/list
-    defaults: { _controller: CmsGalleryBundle:Default:index }
+    defaults: { _controller: CmsGalleryBundle:Gallery:index }
 
 gallery_list_images_by_tag:
     pattern: /gallery/tag/{tagname}
-    defaults: { _controller: CmsGalleryBundle:Default:list }
+    defaults: { _controller: CmsGalleryBundle:Gallery:list }
     requirements:
         _method: GET
 
 gallery_image_new:
     pattern: /gallery/new
-    defaults: { _controller: CmsGalleryBundle:Default:edit }
+    defaults: { _controller: CmsGalleryBundle:Gallery:edit }
     requirements:
         _method: GET
 
 gallery_image_edit:
     pattern: /gallery/edit/{image_id}
-    defaults: { _controller: CmsGalleryBundle:Default:edit }
+    defaults: { _controller: CmsGalleryBundle:Gallery:edit }
     requirements:
         _method: GET
 
 gallery_image_create:
     pattern: /gallery/create
-    defaults: { _controller: CmsGalleryBundle:Default:save }
+    defaults: { _controller: CmsGalleryBundle:Gallery:save }
     requirements:
         _method: POST
 
 gallery_images_upload:
     pattern: /gallery/upload
-    defaults: { _controller: CmsGalleryBundle:Default:upload }
+    defaults: { _controller: CmsGalleryBundle:Gallery:upload }
     requirements:
         _method: POST
 
 gallery_images_massedit:
     pattern: /gallery/massedit
-    defaults: { _controller: CmsGalleryBundle:Default:massEdit }
+    defaults: { _controller: CmsGalleryBundle:Gallery:massEdit }
     requirements:
         _method: POST
 
 gallery_image_update:
     pattern: /gallery/update/{image_id}
-    defaults: { _controller: CmsGalleryBundle:Default:save }
+    defaults: { _controller: CmsGalleryBundle:Gallery:save }
     requirements:
         _method: POST
 
 gallery_image_remove:
     pattern: /gallery/remove/{image_id}
-    defaults: { _controller: CmsGalleryBundle:Default:remove }
+    defaults: { _controller: CmsGalleryBundle:Gallery:remove }
     requirements:
         _method: GET
         post_id: \d+
