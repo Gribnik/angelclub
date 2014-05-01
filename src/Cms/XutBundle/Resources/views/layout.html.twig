@@ -1,5 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block stylesheets %}
+    <link href="{{ asset('bundles/cmsxut/css/libs/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('bundles/cmsxut/css/libs/bootstrap/css/bootstrap-theme.min.css') }}" type="text/css" rel="stylesheet" />
     <link href="{{ asset('bundles/cmsxut/css/screen.css') }}" type="text/css" rel="stylesheet" />
     {% if is_granted('ROLE_ADMIN') %}
         <link href="{{ asset('bundles/cmsblog/css/froala_editor/froala_editor.min.css') }}" rel="stylesheet" type="text/css">
@@ -14,6 +16,7 @@
 {% block javascripts %}
     {# TODO: isolate one bundle from another #}
     <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/cmsxut/css/libs/bootstrap/js/bootstrap.min.js') }}"></script>
     {% if is_granted('ROLE_ADMIN') %}
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/underscore.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmsxut/js/libs/backbone.js') }}"></script>
