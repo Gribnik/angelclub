@@ -1,7 +1,7 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
 {% block body %}
     {# Insert Home Banner #}
-    {{ render(controller("CmsHomeBannerBundle:Default:getImage")) }}
+    {{ render(controller("CmsHomeBannerBundle:Homebanner:getImage")) }}
     <a href="{{ path('blog_index') }}" title="Blog">Blog</a>
     <a href="{{ path('gallery_index') }}" title="Blog">Gallery</a>
 {% endblock %}

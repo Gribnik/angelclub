@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class DefaultController extends Controller
+class HomeBannerController extends Controller
 {
     /**
      * Saves the home banner data
@@ -65,7 +65,7 @@ class DefaultController extends Controller
             $homebanner = $this->_getInitialBanner();
             $form = $this->createForm(new HomebannerType(), $homebanner);
             $json = array();
-            $view = $this->render('CmsHomeBannerBundle:Default:form.html.twig', array(
+            $view = $this->render('CmsHomeBannerBundle:Homebanner:form.html.twig', array(
                 'form' => $form->createView()
             ));
             $json['content'] = $view->getContent();
@@ -88,7 +88,7 @@ class DefaultController extends Controller
     public function getImageAction()
     {
         $homebanner = $this->_getInitialBanner();
-        return $this->render('CmsHomeBannerBundle:Default:banner.html.twig', array(
+        return $this->render('CmsHomeBannerBundle:Homebanner:banner.html.twig', array(
             'banner' => $homebanner
         ));
     }

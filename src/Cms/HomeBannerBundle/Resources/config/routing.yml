@@ -1,15 +1,15 @@
 set_home_banner:
     pattern:  /homebanner/setimage
-    defaults: { _controller: CmsHomeBannerBundle:Default:setImage }
+    defaults: { _controller: CmsHomeBannerBundle:HomeBanner:setImage }
 
 get_home_banner_form:
     pattern:  /homebanner/getform
-    defaults: { _controller: CmsHomeBannerBundle:Default:getForm }
+    defaults: { _controller: CmsHomeBannerBundle:HomeBanner:getForm }
 
 get_home_banner:
     pattern:  /homebanner/gethomebanner
-    defaults: { _controller: CmsHomeBannerBundle:Default:getImage }
+    defaults: { _controller: CmsHomeBannerBundle:HomeBanner:getImage }
 
 preview_home_banner:
     pattern:  /homebanner/preview
-    defaults: { _controller: CmsHomeBannerBundle:Default:preview }
+    defaults: { _controller: CmsHomeBannerBundle:HomeBanner:preview }
