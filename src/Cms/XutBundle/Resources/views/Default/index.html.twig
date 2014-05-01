@@ -1,14 +1,20 @@
 {% extends 'CmsXutBundle::layout.html.twig' %}
+{# Insert Home Banner #}
 {% block body %}
-    {# Insert Home Banner #}
     {{ render(controller("CmsHomeBannerBundle:Homebanner:getImage")) }}
     <a href="{{ path('blog_index') }}" title="Blog">Blog</a>
     <a href="{{ path('gallery_index') }}" title="Blog">Gallery</a>
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/libs/bxslider/jquery.bxslider.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('.hb-slides').bxSlider();
+        })
+    </script>
     {% if is_granted('ROLE_ADMIN') %}
-        {{ parent() }}
         <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/homebanner.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/cmshomebanner/js/jquery.iframe-transport.js') }}"></script>
         <script type="text/javascript">
@@ -22,4 +28,9 @@
             });
         </script>
     {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/cmshomebanner/js/libs/bxslider/jquery.bxslider.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}

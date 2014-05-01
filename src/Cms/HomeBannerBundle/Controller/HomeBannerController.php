@@ -81,14 +81,41 @@ class HomeBannerController extends Controller
     }
 
     /**
-     * Returns home banner content
+     * Returns home banner images, filtered by a tag
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getImageAction()
     {
         $homebanner = $this->_getInitialBanner();
-        return $this->render('CmsHomeBannerBundle:Homebanner:banner.html.twig', array(
+        $em = $this->getDoctrine()->getManager();
+        $tagname = $homebanner->getName(); // Get image tag for home page banner slides
+
+        $images = '';
+        // TODO: add ability to use comma separated tags
+        if (!empty($tagname)) {
+            $images = $em->createQueryBuilder()
+                ->select('bl')
+                ->from('CmsXutBundle:Gist', 'bl')
+                ->where('bl.type = :gisttype')
+                ->setParameter('gisttype', 'image')
+                ->addOrderBy('bl.date_created');
+
+            $tag = $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
+            if (count($tag) > 0) {
+                $images = $images->innerJoin('bl.tags', 'tg')
+                    ->andWhere('tg.id = :tag')
+                    ->setParameter('tag', $tag->getId());
+
+                $images = $images->getQuery()
+                    ->getResult();
+            } else {
+                $images = '';
+            }
+        }
+
+        return $this->render('CmsHomeBannerBundle:Homebanner:images.html.twig', array(
+            'images' => $images,
             'banner' => $homebanner
         ));
     }

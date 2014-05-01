@@ -54,7 +54,7 @@ class GalleryController extends Controller
             ->addOrderBy('bl.date_created');
 
         if (!is_null($tagname) && !empty($tagname)) {
-            $tag =  $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
+            $tag = $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
             if (!is_null($tag)) {
                 $images = $images->innerJoin('bl.tags', 'tg')
                     ->andWhere('tg.id = :tag')

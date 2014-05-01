@@ -1,6 +1,8 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+{% block admin_toolbar %} {% endblock %}
+{% block body %}
 <div class="home-banner-wrapper">
     {% if is_granted('ROLE_ADMIN') %}
-        {# TODO: make as one cycle #}
         {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message notice">
             {{ flashMessage }}
@@ -17,6 +19,15 @@
         </div>
 
     {% endif %}
-    The slider goes here
-    <div class="banner-quote">{{ banner.getContent() }}</div>
+    <div id="hb-slider">
+        <ul class="hb-slides">
+            {% for image in images %}
+                <li class="hb-slider-image">
+                    <img src="{{ image.getWebPath() }}" alt="" />
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="hb-image-excerpt">{{ banner.getContent() }}</div>
+    </div>
 </div>
+{% endblock %}
