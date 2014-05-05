@@ -181,17 +181,16 @@ class GalleryController extends Controller
                 $em->persist($image);
             }
             $em->flush();
+            $form = $this->createForm(new ImageType(), $image);
+            $view =  $this->render('CmsGalleryBundle:Gallery:response_form.html.twig', array(
+                'form'      => $form->createView(),
+                'image'     => $image,
+            ));
+
+            $json['imageForm'] = $view->getContent();
+        } else {
+            $json['status'] = 'error';
         }
-
-
-        $form = $this->createForm(new ImageType(), $image);
-        $view =  $this->render('CmsGalleryBundle:Gallery:response_form.html.twig', array(
-            'form'      => $form->createView(),
-            'image'     => $image,
-        ));
-
-        $json['imageForm'] = $view->getContent();
-
 
         return $this->get('backpack')->sendJsonResponse($json);
     }

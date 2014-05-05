@@ -10,26 +10,22 @@
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-
-<section id="wrapper">
-    <header id="header">
-        <div class="top">
-            {% block admin_toolbar %} {% endblock %}
+<div class="container">
+    <div class="header">
+        <div class="admin-toolbar">{% block admin_toolbar %} {% endblock %}</div>
+        <div class="head-titles pull-left">
+            <h1 class="site-title">Hello World /</h1>
+            <h4 class="site-subtitle">everyone</h4>
         </div>
-    </header>
 
-    <section class="main-col">
-        {% block body %}{% endblock %}
-    </section>
-
-    <div id="footer">
-        {% block footer %}
-            Footer
-        {% endblock %}
+        {% block navigation %} {% endblock %}
     </div>
-</section>
 
+    {% block body %}{% endblock %}
+    <div id="footer">
+        {% block footer %}{% endblock %}
+    </div>
+</div>
 {% block javascripts %}{% endblock %}
-{% block javascripts_last %}{% endblock %}
 </body>
 </html>
