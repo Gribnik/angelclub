@@ -76,6 +76,14 @@ body {
     opacity: 0;
 }
 
+.mfp-bottom-bar .tags {
+    font-size: 12px;
+}
+
+.mfp-bottom-bar .tags span {
+    cursor: pointer;
+    font-style: italic;
+}
 
 /* lightbox end */
 

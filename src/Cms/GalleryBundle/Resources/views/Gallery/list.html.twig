@@ -15,27 +15,31 @@
         <div class="test"></div>
         <div class="gallery-wrapper">
         {% for image in images %}
-                    {#<div class="gallery-image col-md-6">#}
-                        <a style="display: block" href="{{ image.getWebPath() }}" class="gallery-image col-md-6 full-image">
-                        <img src="" class="lazy" data-src="{{ image.getWebPath() }}" alt="">
-                        {#{% if is_granted('ROLE_ADMIN') %}#}
-                            {#<div class="image-edit-wrapper"#}
-                                 {#data-form-url="{{ path('gallery_image_edit', { 'image_id': image.id }) }}">#}
-                                {#<div class="gallery-action image-remove">Remove</div>#}
-                                {#<div class="gallery-action image-edit">Edit</div>#}
-                                {#<div class="image-edit-container"></div>#}
-                            {#</div>#}
-                        {#{% endif %}#}
-                        {#<div class="info" style="display: none;">#}
-                            {#<div class="description">{{ image.content }}</div>#}
-                            {#<div class="tags">#}
-                                {#{% for tag in image.tags %}#}
-                                    {#<a href="{{ path('gallery_list_images_by_tag', { 'tagname': tag.name }) }}">{{ tag.name }}</a>#}
-                                {#{% endfor %}#}
-                            {#</div>#}
-                        {#</div>#}
-                        </a>
-                    {#</div>#}
+            <a style="display: block" href="{{ image.getWebPath() }}" class="gallery-image col-md-6 full-image">
+                <img src="" class="lazy" data-src="{{ image.getWebPath() }}" alt="">
+                <div class="info" style="display: none;">
+                    <div class="description">{{ image.content }}</div>
+                    <div class="tags">
+                        {% if image.tags|length > 0 %}
+                            Tags:&nbsp;
+                            {% for tag in image.tags %}
+                                {# TODO: JS event observer to make the 'spanned' links work #}
+                                <span class="taglink" data-href="{{ path('gallery_list_images_by_tag', { 'tagname': tag.name }) }}">
+                                    {{ tag.name }}
+                                </span>,
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="image-edit-wrapper"
+                     data-form-url="{{ path('gallery_image_edit', { 'image_id': image.id }) }}">
+                    <div class="gallery-action image-remove">Remove</div>
+                    <div class="gallery-action image-edit">Edit</div>
+                    <div class="image-edit-container"></div>
+                </div>
+            {% endif %}
         {% else %}
             <p class="notfound">There are no images :(</p>
         {% endfor %}
@@ -55,39 +59,42 @@
         $(function() {
             $("img.lazy").lazy();
 
+            /* lightbox */
+            $('.gallery-wrapper').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                closeOnContentClick: false,
+                closeBtnInside: false,
+                mainClass: 'mfp-with-zoom mfp-img-mobile',
+                image: {
+                    verticalFit: true,
+                    titleSrc: function(item) {
+                        var description = item.el.find('.info');
+                        console.log(description.html());
+                        return description.html();
+                    }
+                },
+                gallery: {
+                    enabled: true
+                },
+                zoom: {
+                    enabled: true,
+                    duration: 300,
+                    opener: function(element) {
+                        return element.find('img');
+                    }
+                }
+            });
+
+            $('body').delegate('.taglink', 'click', function() {
+                document.location = $(this).data('href');
+            })
         });
     </script>
     {% if is_granted('ROLE_ADMIN') %}
         <script type="text/javascript">
             /* TODO: Move to a separate file */
             $(function() {
-                /* lightbox */
-
-                $('.gallery-wrapper').magnificPopup({
-                    delegate: 'a',
-                    type: 'image',
-                    closeOnContentClick: false,
-                    closeBtnInside: false,
-                    mainClass: 'mfp-with-zoom mfp-img-mobile',
-                    image: {
-                        verticalFit: true,
-                        titleSrc: function(item) {
-                            return item.el.attr('title') + ' &middot; ';
-                        }
-                    },
-                    gallery: {
-                        enabled: true
-                    },
-                    zoom: {
-                        enabled: true,
-                        duration: 300,
-                        opener: function(element) {
-                            return element.find('img');
-                        }
-                    }
-
-                });
-
                 if ($('.image-edit-wrapper').length > 0) {
                     var editForms = [];
                     $('.image-edit-wrapper').each(function() {
