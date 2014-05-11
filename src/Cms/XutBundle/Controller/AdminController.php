@@ -8,7 +8,7 @@ class AdminController extends Controller
 {
     public function indexAction()
     {
-
-        return $this->render('CmsXutBundle:Admin:index.html.twig');
+        /* Currently we have no admin interface. Go to the home pagex` */
+        return $this->redirect($this->generateUrl('cms_xut_homepage'));
     }
 }

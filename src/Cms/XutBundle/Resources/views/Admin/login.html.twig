@@ -1,0 +1,20 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+    <div class="adminlogin-wrapper">
+        <form action="{{ path('login_check') }}" method="post" role="form">
+            <div class="form-group">
+                <input type="text" class="form-control" id="username" placeholder="username"
+                       name="_username" value="{{ last_username }}" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="password" id="password" name="_password" />
+            </div>
+            <input type="hidden" name="_target_path" value="/locomotive" />
+            <p><button type="submit" class="btn btn-default">login</button></p>
+        </form>
+    </div>
+{% endblock %}

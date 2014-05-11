@@ -23,7 +23,7 @@ class SecurityController extends Controller
         }
 
         return $this->render(
-            'CmsXutBundle:Security:login.html.twig',
+            'CmsXutBundle:Admin:login.html.twig',
             array(
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
