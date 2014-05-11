@@ -47,6 +47,7 @@ gistEditForm = Backbone.View.extend({
     render: function() {
         if (this.loaded === true) {
             this.viewPort.html(this.formModel.get("content"));
+            this.viewPort.show('fast');
             var template = _.template( $(this.template).html(), {} );
             var imagesUploadPath = this.editorImageUploadPath;
             this.viewPort.html(template).find('#blogpost_content').editable({

@@ -11,6 +11,7 @@ function imageUploadCallback(data, savePath)
     $('#uploaded-images-wrapper').append(data.result.imageForm);
 
     if (false === saveImagesBinded) {
+        $('#image-new-wrapper').addClass('uploaded');
         $('#save-upload').click(function() {
             saveUploadedImages(savePath, false)
         });

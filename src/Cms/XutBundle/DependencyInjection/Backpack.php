@@ -2,6 +2,7 @@
 
 namespace Cms\XutBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,8 @@ class Backpack
     private $_session;
     private $_contentFilters;
 
-    /*public function __construct() {
-        $this->_session = new Session();
-        $this->_session->start();
-    }*/
+    /** @var \Doctrine\ORM\EntityManager  */
+    protected $_entityManager;
 
     public function sendJsonResponseText($text, $status='success')
     {
@@ -43,6 +42,33 @@ class Backpack
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+
+    public function setEntityManager($em)
+    {
+        $this->_entityManager = $em;
+    }
+
+    public function getEntityManager()
+    {
+        if (null === $this->_entityManager) {
+            throw new Exception('The entity manager should be defined first');
+        } else {
+            return $this->_entityManager;
+        }
+    }
+
+    /**
+     * Returns categories filtered by the requested type
+     *
+     * @param string $type
+     * @return mixed
+     */
+    public function getCategoriesList($type)
+    {
+        $categories = $this->getEntityManager()->getRepository('CmsXutBundle:Category')->findByType($type);
+
+        return $categories;
     }
 
 

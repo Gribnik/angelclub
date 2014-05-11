@@ -9,6 +9,17 @@ use Cms\XutBundle\Form\CategoryType;
 
 class CategoryController extends Controller
 {
+    public function listAction($type)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->get('backpack')->setEntityManager($em);
+        $categories = $this->get('backpack')->getCategoriesList($type);
+
+        return $this->render('CmsXutBundle:Admin:categories_list.html.twig', array(
+            'categories' => $categories
+        ));
+    }
+
     public function editAction($category_id = 0)
     {
         if ($this->_isAdmin()) {

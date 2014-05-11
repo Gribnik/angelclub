@@ -9,13 +9,6 @@ body {
     width: 240px;
 }
 
-.gallery-image,
-.gallery-image img {
-    width: 480px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-}
-
 .head-navigation li {
     height: 26px;
     width: 130px;
@@ -48,6 +41,70 @@ body {
 .head-navigation li.active a:hover {
     background-color: transparent;
     color: #FFD323;
+}
+
+#admin-toolbar {
+    height: 30px;
+    padding: 5px 0;
+}
+
+#admin-new-image {
+    position: relative;
+}
+
+#image-new-wrapper {
+    position: absolute;
+    width: 270px;
+    left: -180px;
+    margin-top: 10px;
+    z-index: 30;
+}
+
+#image-new-wrapper.uploaded {
+    width: 350px
+}
+
+#image-new-wrapper input[type="file"]
+{
+    margin-bottom: 10px;
+}
+
+#uploaded-images-wrapper .img-preview {
+    width: 150px;
+    float: left;
+}
+
+#uploaded-images-wrapper .image-data {
+    float: right;
+    width: 170px;
+}
+
+#uploaded-images-wrapper textarea,
+#uploaded-images-wrapper input[type="text"]
+{
+    width: 170px;
+}
+
+.uploaded-image-row {
+    padding-bottom: 15px;
+}
+
+.uploaded-image-remove {
+    font-weight: bold;
+}
+
+.edit-popup {
+    background-color: rgba(255,255,255,0.9);
+    padding: 10px;
+    display: none;
+    color: #000;
+    border-radius: 3px;
+}
+
+#admin-toolbar .admin-toolbar-item {
+    display: block;
+    float: right;
+    padding: 0 10px;
 }
 
 
@@ -86,6 +143,47 @@ body {
 }
 
 /* lightbox end */
+
+
+/* Gallery */
+
+.gallery-image,
+.gallery-image img {
+    width: 480px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.gallery-image .image-edit-wrapper {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.gallery-action {
+    cursor: pointer;
+    text-align: right;
+}
+
+.image-edit-container {
+    width: 350px;
+}
+
+.image-edit-type td {
+    padding: 5px;
+}
+
+.image-edit-type .image-description-edit {
+    width: 225px;
+    height: 60px;
+    border: 1px solid #CCC;
+}
+
+.image-edit-type .image-tags-edit {
+    width: 225px;
+    border: 1px solid #CCC;
+}
 
 @media screen and (max-width: 480px){
     body {

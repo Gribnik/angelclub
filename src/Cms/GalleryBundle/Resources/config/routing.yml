@@ -54,3 +54,9 @@ gallery_image_remove:
     requirements:
         _method: GET
         post_id: \d+
+
+gallery_list_categories:
+    pattern: /group/{type}
+    defaults: { _controller: CmsXutBundle:Cagegory:list }
+    requirements:
+        _method: GET
