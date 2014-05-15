@@ -36,6 +36,17 @@ class GalleryController extends Controller
         }
     }
 
+    public function categoriesAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $this->get('backpack')->setEntityManager($em);
+
+        $categories = $this->get('backpack')->getCategoriesList('gallery');
+        return $this->render('CmsGalleryBundle:Gallery:categories.html.twig', array(
+            'categories' => $categories
+        ));
+    }
+
     /**
      * Lists all galery images
      *

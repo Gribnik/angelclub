@@ -1,0 +1,11 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+{% block body %}
+    <div class="content-wrapper">
+    {% for category in categories %}
+        <div class="gallery-category col-md-6">
+            <h4><a href="#">{{ category.getName() }}</a></h4>
+        </div>
+    {% endfor %}
+    <div style="clear: both"></div>
+    </div>
+{% endblock %}
