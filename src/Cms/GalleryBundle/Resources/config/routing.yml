@@ -12,6 +12,13 @@ gallery_list_images_by_tag:
     requirements:
         _method: GET
 
+gallery_list_images_by_category:
+    pattern: /gallery/category/{category_id}
+    defaults: { _controller: CmsGalleryBundle:Gallery:list }
+    requirements:
+        _method: GET
+        category_id: \d+
+
 gallery_image_new:
     pattern: /gallery/new
     defaults: { _controller: CmsGalleryBundle:Gallery:edit }
@@ -53,7 +60,7 @@ gallery_image_remove:
     defaults: { _controller: CmsGalleryBundle:Gallery:remove }
     requirements:
         _method: GET
-        post_id: \d+
+        image_id: \d+
 
 gallery_list_categories:
     pattern: /gallery/categories

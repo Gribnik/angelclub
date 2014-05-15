@@ -36,6 +36,12 @@ class GalleryController extends Controller
         }
     }
 
+
+    /**
+     * Lists all categories of the gallery
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function categoriesAction()
     {
         $em = $this->getDoctrine()->getManager();
@@ -52,7 +58,7 @@ class GalleryController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction($tagname = null)
+    public function listAction($tagname = null, $category_id = null)
     {
         // TODO: Reduce queries count, connected to the tags
 
@@ -64,13 +70,17 @@ class GalleryController extends Controller
             ->setParameter('gisttype', 'image')
             ->addOrderBy('bl.date_created');
 
-        if (!is_null($tagname) && !empty($tagname)) {
+        if (NULL !== $tagname && !empty($tagname)) {
             $tag = $em->getRepository('CmsXutBundle:Tag')->findOneByName($tagname);
             if (!is_null($tag)) {
                 $images = $images->innerJoin('bl.tags', 'tg')
                     ->andWhere('tg.id = :tag')
                     ->setParameter('tag', $tag->getId());
             }
+        } elseif (NULL !== $category_id) {
+            $images->innerJoin('bl.categories', 'cat')
+                ->andWhere('cat.id = :category')
+                ->setParameter('category', $category_id);
         }
 
         $images = $images->getQuery()

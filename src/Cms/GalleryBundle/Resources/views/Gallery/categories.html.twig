@@ -3,7 +3,11 @@
     <div class="content-wrapper">
     {% for category in categories %}
         <div class="gallery-category col-md-6">
-            <h4><a href="#">{{ category.getName() }}</a></h4>
+            <h4>
+                <a href="{{ path('gallery_list_images_by_category', { 'category_id' : category.getId() }) }}">
+                    {{ category.getName() }}
+                </a>
+            </h4>
         </div>
     {% endfor %}
     <div style="clear: both"></div>
