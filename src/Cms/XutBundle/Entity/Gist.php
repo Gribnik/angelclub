@@ -215,7 +215,7 @@ class Gist
     }
 
     /**
-     * Add categories
+     * Add categorie
      *
      * @param \Cms\XutBundle\Entity\Category $categories
      * @return Gist
@@ -228,7 +228,7 @@ class Gist
     }
 
     /**
-     * Remove categories
+     * Remove categorie
      *
      * @param \Cms\XutBundle\Entity\Category $categories
      */

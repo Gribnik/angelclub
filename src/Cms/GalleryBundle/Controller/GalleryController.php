@@ -4,7 +4,9 @@ namespace Cms\GalleryBundle\Controller;
 
 use Cms\XutBundle\Entity\Gist;
 use Cms\XutBundle\Entity\Tag;
+use Cms\XutBundle\Entity\Category;
 use Cms\GalleryBundle\Form\ImageType;
+//use Doctrine\Tests\ORM\Tools\Pagination\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -219,6 +221,7 @@ class GalleryController extends Controller
 
     public function massEditAction()
     {
+        /* TODO: Make it using native forms */
         $params = $this->getRequest()->request->all();
         if (isset($params['imagesDetails'])) {
             $em = $this->getDoctrine()->getManager();
@@ -226,6 +229,7 @@ class GalleryController extends Controller
                 $details = array();
                 parse_str($_imageDetails, $details);
                 if ($details['image_id'] > 0) {
+                    /** @var \Cms\XutBundle\Entity\Gist $image */
                     $image = $em->getRepository('CmsXutBundle:Gist')->find($details['image_id'] );
                     if (NULL !== $image) {
                         $haschanges = false;
@@ -236,6 +240,19 @@ class GalleryController extends Controller
                             }
                             if (!empty($details['tagsfield'])) {
                                 $this->_setTagsFromString($details['tagsfield'], $image);
+                                $haschanges = true;
+                            }
+                            if (count($details['gallery_image']['categories']) > 0) {
+                                $categories = $em->createQueryBuilder()
+                                    ->select('ct')
+                                    ->from('CmsXutBundle:Category', 'ct')
+                                    ->where('ct.id in(:cats)')
+                                    ->setParameter('cats', $details['gallery_image']['categories']);
+                                $categories = $categories->getQuery()
+                                    ->getResult();
+                                foreach ($categories as $_category) {
+                                    $image->addCategorie($_category);
+                                }
                                 $haschanges = true;
                             }
 
