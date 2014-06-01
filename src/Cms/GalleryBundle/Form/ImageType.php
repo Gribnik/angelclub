@@ -17,5 +17,11 @@ class ImageType extends AbstractType
         $builder->add('file', 'file', array('required' => false, 'label' => ''));
         $builder->add('content', 'textarea', array('required' => false));
         $builder->add('tagsfield', 'text', array('required' => false));
+        $builder->add('categories', 'entity', array(
+            'multiple' => true,
+            'expanded' => false,
+            'property' => 'name',
+            'class'    => 'CmsXutBundle:Category'
+        ));
     }
 }

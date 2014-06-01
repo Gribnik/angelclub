@@ -4,15 +4,27 @@
         <table class="image-edit-type">
             <tr>
                 <td class="form-label"><label>Image:</label></td>
-                <td><input type="file" class="image-file-edit" name="gallery_image[file]"></td>
+                <td>
+                    {{ form_widget(form.file, { 'attr': { 'class': 'image-file-edit' }, 'id': '' } ) }}
+                </td>
             </tr>
             <tr>
                 <td class="form-label"><label>Description:</label></td>
-                <td><textarea class="image-description-edit" name="gallery_image[content]"></textarea></td>
+                <td>
+                    {{ form_widget(form.content, { 'attr': { 'class': 'image-description-edit' }, 'id': '' } ) }}
+                </td>
             </tr>
             <tr>
                 <td class="form-label"><label>Tags:</label></td>
-                <td><input type="text" class="image-tags-edit" name="gallery_image[tagsfield]"></td>
+                <td>
+                    {{ form_widget(form.tagsfield, { 'attr': { 'class': 'image-tags-edit' }, 'id': '' } ) }}
+                </td>
+            </tr>
+            <tr>
+                <td class="form-label"><label>Categories:</label></td>
+                <td>
+                    {{ form_widget(form.categories, { 'attr': { 'class': 'image-categories-edit' }, 'id': '' } ) }}
+                </td>
             </tr>
         </table>
         {{ form_widget(form._token) }}
