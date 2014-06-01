@@ -36,8 +36,8 @@
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="image-edit-wrapper"
                          data-form-url="{{ path('gallery_image_edit', { 'image_id': image.id }) }}">
-                        <div class="gallery-action image-remove">Remove</div>
-                        <div class="gallery-action image-edit">Edit</div>
+                        <div class="button-action image-remove">Remove</div>
+                        <div class="button-action image-edit">Edit</div>
                         <div class="image-edit-container edit-popup"></div>
                     </div>
                 {% endif %}

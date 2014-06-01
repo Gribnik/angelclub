@@ -19,27 +19,32 @@ login_check:
 logout:
     pattern:  /locomotive/logout
 
-category_new:
-    pattern: /editcat/
+cms_categories_list:
+    pattern: /locomotive/categories
     defaults: { _controller: CmsXutBundle:Category:edit }
     requirements:
         _method: GET
 
-category_edit:
-    pattern: /editcat/{category_id}
-    defaults: { _controller: CmsXutBundle:Category:edit }
+cms_category_new:
+    pattern: /locomotive/categories/edit
+    defaults: { _controller: CmsXutBundle:Category:new }
+
+cms_category_create:
+    pattern: /locomotive/categories/save/
+    defaults: { _controller: CmsXutBundle:Category:save }
     requirements:
         _method: GET
 
-category_create:
-    pattern: /savecat/
+cms_category_update:
+    pattern: /locomotive/categories/save/{category_id}
     defaults: { _controller: CmsXutBundle:Category:save }
     requirements:
         _method: POST
+        category_id: \d+
 
-category_update:
-    pattern: /savecat/{category_id}
-    defaults: { _controller: CmsXutBundle:Category:save }
+cms_category_remove:
+    pattern: /locomotive/categories/remove/{category_id}
+    defaults: { _controller: CmsXutBundle:Category:remove }
     requirements:
-        _method: POST
+        _method: GET
         category_id: \d+

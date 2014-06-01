@@ -1,0 +1,37 @@
+{% extends 'CmsXutBundle::layout.html.twig' %}
+
+{% block body %}
+    <div>
+        {# TODO: make as one cycle #}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-message notice">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="flash-message error">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% for form in forms %}
+            <div>
+                <form data-category-id="{{ form.category.id }}"
+                      action="{{ path('cms_category_update', {'category_id': form.category.id}) }}"
+                      method="post" {{ form_enctype(form.formview) }}>
+                    {{ form_widget(form.formview.name, { 'attr': { 'class': 'category-name-edit' }, 'id': '' } ) }}
+                    {{ form_widget(form.formview._token) }}
+                    <div class="button-action">Remove</div>
+                </form>
+            </div>
+        {% endfor %}
+        <div>
+            <form action="{{ path('cms_category_new') }}"  method="post" {{ form_enctype(form_new) }}>
+                {{ form_widget(form_new.name,
+                { 'attr': { 'class': 'category-edit', 'placeholder' : 'Create New' }, 'id': '' } ) }}
+                {{ form_widget(form_new._token) }}
+                <div class="button-action">Save</div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -6,7 +6,7 @@
         <div><textarea name="content" placeholder="Description"></textarea></div>
         <div><input type="text" name="tagsfield"placeholder="Tags"></div>
         <div>{{ form_widget(form.categories, { 'attr': { 'class': 'image-categories-edit' }, 'id': '' } ) }}</div>
-        <span class="gallery-action uploaded-image-remove">x Remove</span>
+        <span class="button-action uploaded-image-remove">x Remove</span>
         <input type="hidden" name="image_id" value="{{ image.getId() }}">
         <input type="hidden" name="is_removed" value="">
     </div>

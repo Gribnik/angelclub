@@ -20,23 +20,31 @@ class CategoryController extends Controller
         ));
     }
 
-    public function editAction($category_id = 0)
+
+    public function editAction()
     {
         if ($this->_isAdmin()) {
-            if (!$category_id) {
-                $category = new Category();
-            } else {
-                $em = $this->getDoctrine()->getManager();
-                $category = $em->getRepository('CmsXutBundle:Gist')->find($category_id);
-                /* TODO: check if category exists */
+            $em = $this->getDoctrine()->getManager();
+            $this->get('backpack')->setEntityManager($em);
+            $categories = $this->get('backpack')->getCategoriesList('gallery');
+            $forms = array();
+
+            if (count($categories) > 0) {
+                foreach ($categories as $_category) {
+                    $forms[] = array(
+                        'formview' => $this->createForm(new CategoryType(), $_category)->createView(),
+                        'category' => $_category
+                    );
+                }
             }
 
-            $form = $this->createForm(new CategoryType(), $category);
+            $formNew = $this->createForm(new CategoryType(), new Category());
 
-            return $this->render('CmsXutBundle:Admin:category_edit.html.twig', array(
-                'form' => $form->createView(),
-                'category' => $category
+            return $this->render('CmsXutBundle:Admin:categories_list.html.twig', array(
+                'forms'     => $forms,
+                'form_new'  => $formNew->createView()
             ));
+
         } else {
             throw new AccessDeniedException();
         }
