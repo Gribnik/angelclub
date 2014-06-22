@@ -14,24 +14,113 @@
             </div>
         {% endfor %}
 
-        {% for form in forms %}
+        <div id="categories-list">
+            {% for form in forms %}
+                <div class="category-view-template" style="display: none">
+                    <form data-category-id="{{ form.category.id }}"
+                          action="{{ path('cms_category_update', {'category_id': form.category.id}) }}"
+                          method="PUT" {{ form_enctype(form.formview) }}
+                          role="form">
+                        {{ form_widget(form.formview.name, { 'attr': { 'class': 'category-name-edit form-control' }, 'id': '' } ) }}
+                        {{ form_widget(form.formview._token, { 'attr': { 'class': 'category-edit-token' }, 'id': '' }) }}
+                        <div class="button-action remove-action">Remove</div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        <script type="text/template" class="category-new-template">
             <div>
-                <form data-category-id="{{ form.category.id }}"
-                      action="{{ path('cms_category_update', {'category_id': form.category.id}) }}"
-                      method="post" {{ form_enctype(form.formview) }}>
-                    {{ form_widget(form.formview.name, { 'attr': { 'class': 'category-name-edit' }, 'id': '' } ) }}
-                    {{ form_widget(form.formview._token) }}
-                    <div class="button-action">Remove</div>
+                <form action="{{ path('cms_category_new') }}"  method="post" {{ form_enctype(form_new) }}>
+                    {{ form_widget(form_new.name,
+                    { 'attr': { 'class': 'category-edit', 'placeholder' : 'Create New' }, 'id': '' } ) }}
+                    {{ form_widget(form_new._token) }}
+                    <div class="button-action">Save</div>
                 </form>
             </div>
-        {% endfor %}
-        <div>
-            <form action="{{ path('cms_category_new') }}"  method="post" {{ form_enctype(form_new) }}>
-                {{ form_widget(form_new.name,
-                { 'attr': { 'class': 'category-edit', 'placeholder' : 'Create New' }, 'id': '' } ) }}
-                {{ form_widget(form_new._token) }}
-                <div class="button-action">Save</div>
-            </form>
-        </div>
+        </script>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <script type="text/javascript">
+
+            categoryDataModel = Backbone.Model.extend({
+                defaults: {
+                    'name': '',
+                    '_token': ''
+                }
+            });
+
+            categoryEditForm = Backbone.View.extend({
+                events: {
+                    'change .category-name-edit': 'saveAction',
+                    'click .remove-action': 'removeAction'
+                },
+
+                initialize: function(options) {
+                    _.extend(this, _.pick(options, 'template', 'categoryData')); // Pick options, passed to the controller
+                    _.bindAll(this, 'initialize', 'saveAction', 'removeAction', 'render', 'unrender'); // fixes loss of context for 'this' within methods
+                    console.log('view created'); // DEBUG
+                    this.render();
+                },
+
+                render: function() {
+                    this.template.show('fast')
+                },
+
+                unrender: function() {
+                    this.template.hide('fast').remove();
+                },
+
+                saveAction: function() {
+                    console.log('the field has been edited'); // DEBUG
+                    this.categoryData.save({'name': this.template.find('.category-name-edit').val()}, {
+                        success: function(model, response) {
+                            console.log(response) // DEBUG
+                        }
+                    })
+                },
+
+                removeAction: function() {
+                    var sure = confirm("Are you really want to get rid of this shit?")
+                    var that = this;
+                    if (true == sure) {
+                        this.categoryData.destroy({
+                            success: function() {
+                                that.unrender();
+                            }
+                        })
+                    }
+                }
+            })
+
+
+            $(function() {
+                var categoriesViews = [];
+                var urlRoot = '{{ path('cms_category_create') }}';
+                $.each($('.category-view-template'), function() {
+                    var categoryId = $(this).find('form').data('category-id');
+
+                    console.log(categoryId + ' category_id to the view'); // DEBUG
+
+                    var categoryData = new categoryDataModel({
+                        'id': categoryId,
+                        'name': $(this).find('.category-name-edit').val(),
+                        '_token': $(this).find('.category-edit-token').val()
+                    });
+
+                    categoryData.urlRoot = urlRoot;
+
+                    categoriesViews.push(new categoryEditForm({
+                        el: $(this),
+                        template: $(this),
+                        categoryData: categoryData
+                    }));
+
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}

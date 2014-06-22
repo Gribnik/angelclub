@@ -38,13 +38,14 @@ cms_category_create:
 cms_category_update:
     pattern: /locomotive/categories/save/{category_id}
     defaults: { _controller: CmsXutBundle:Category:save }
+    methods: [PUT]
     requirements:
-        _method: POST
+        _method: PUT
         category_id: \d+
 
 cms_category_remove:
-    pattern: /locomotive/categories/remove/{category_id}
+    pattern: /locomotive/categories/save/{category_id}
     defaults: { _controller: CmsXutBundle:Category:remove }
     requirements:
-        _method: GET
+        _method: DELETE
         category_id: \d+
