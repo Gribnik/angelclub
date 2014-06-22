@@ -1,3 +1,7 @@
+/**
+ * Category model
+ * @type {Backbone.Model}
+ */
 categoryDataModel = Backbone.Model.extend({
     defaults: {
         'name': '',
@@ -5,6 +9,10 @@ categoryDataModel = Backbone.Model.extend({
     }
 });
 
+/**
+ * View for category edit/create form
+ * @type {Backbone.View}
+ */
 categoryEditForm = Backbone.View.extend({
     events: {
         'change .category-name-edit': 'saveAction',
@@ -13,20 +21,28 @@ categoryEditForm = Backbone.View.extend({
     },
 
     initialize: function(options) {
-        _.extend(this, _.pick(options, 'template', 'categoryData')); // Pick options, passed to the controller
-        _.bindAll(this, 'initialize', 'saveAction', 'removeAction', 'render', 'unrender'); // fixes loss of context for 'this' within methods
-        console.log('view created'); // DEBUG
+        _.extend(this, _.pick(options, 'template', 'categoryData'));
+        _.bindAll(this, 'initialize', 'saveAction', 'removeAction', 'render', 'unrender');
         this.render();
     },
 
+    /**
+     * Shows category edit form
+     */
     render: function() {
         this.template.show('fast')
     },
 
+    /**
+     * Hides category edit form
+     */
     unrender: function() {
         this.template.hide('fast').remove();
     },
 
+    /**
+     * Saves the form data as existing or new category. Depends on what form is being saved
+     */
     saveAction: function() {
         if (false == this.validateAction()) {
             alert("Category name cannot be empty");
@@ -42,6 +58,10 @@ categoryEditForm = Backbone.View.extend({
         }
     },
 
+    /**
+     * Validates category edit/new form
+     * @returns {boolean}
+     */
     validateAction: function() {
         var categoryName = this.template.find('.category-name').val();
         if ($.trim(categoryName) == '') {
@@ -51,6 +71,9 @@ categoryEditForm = Backbone.View.extend({
         }
     },
 
+    /**
+     * Removes a requested category
+     */
     removeAction: function() {
         var sure = confirm("Are you really want to get rid of this shit?")
         var that = this;

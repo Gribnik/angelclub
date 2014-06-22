@@ -47,6 +47,7 @@
             $(function() {
                 var categoriesViews = [];
                 var saveUrlRoot = '{{ path('cms_category_create') }}';
+                /* Create view and model for each category form */
                 $.each($('.category-view-template'), function() {
                     var categoryId = $(this).find('form').data('category-id');
 
@@ -68,6 +69,7 @@
 
                 });
 
+                /* Create view and model for the new category form */
                 var newCategoryData = new categoryDataModel({
                     '_token' : $('.category-new-template').find('.category-new-token').val()
                 })
