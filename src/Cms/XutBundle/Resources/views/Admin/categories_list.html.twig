@@ -74,15 +74,27 @@
                 },
 
                 saveAction: function() {
-                    console.log('the field has been edited'); // DEBUG
-                    this.categoryData.save({'name': this.template.find('.category-name').val()}, {
-                        success: function(model, response) {
-                            if (response.status == 'created') {
-                                /* TODO: append the new view instead of the page reloading */
-                                location.reload()
+                    if (false == this.validateAction()) {
+                        alert("Category name cannot be empty");
+                    } else {
+                        this.categoryData.save({'name': this.template.find('.category-name').val()}, {
+                            success: function(model, response) {
+                                if (response.status == 'created') {
+                                    /* TODO: append the new view instead of the page reloading */
+                                    location.reload()
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
+                },
+
+                validateAction: function() {
+                    var categoryName = this.template.find('.category-name').val();
+                    if ($.trim(categoryName) == '') {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 },
 
                 removeAction: function() {
