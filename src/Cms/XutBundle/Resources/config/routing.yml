@@ -33,12 +33,11 @@ cms_category_create:
     pattern: /locomotive/categories/save/
     defaults: { _controller: CmsXutBundle:Category:save }
     requirements:
-        _method: GET
+        _method: POST
 
 cms_category_update:
     pattern: /locomotive/categories/save/{category_id}
     defaults: { _controller: CmsXutBundle:Category:save }
-    methods: [PUT]
     requirements:
         _method: PUT
         category_id: \d+

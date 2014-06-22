@@ -56,19 +56,21 @@ class CategoryController extends Controller
         $parameters = (array) json_decode($putJson);
 
         /* There are some problems using form->put->request flow with backbone. So, we have some dog-nails here */
-        
+
         $necessaryParameters = array('name' => '', '_token' => '');
         $parameters = array_intersect_key($parameters, $necessaryParameters);
         $request = $this->getRequest();
-        if ($request->getMethod() == 'PUT' && $this->_isAdmin()) {
+        if ($this->_isAdmin()) {
             $requestToHandle = $request->create($request->getUri(), 'PUT',
                 array('category' => (array) $parameters));
             $em = $this->getDoctrine()->getManager();
             if (!$category_id) {
                 $category = new Category();
-                $category->setType('blog');
+                $category->setType('gallery');
+                $responseStatus = 'created';
             } else {
                 $category = $em->getRepository('CmsXutBundle:Category')->find($category_id);
+                $responseStatus = 'saved';
                 if (is_null($category)) {
                     return $this->get('backpack')->sendJsonResponseText('Category with requested id does not exist', 'error');
                 }
@@ -79,6 +81,7 @@ class CategoryController extends Controller
             if ($form->isValid()) {
                 $em->persist($category);
                 $em->flush();
+
             } else {
                 return $this->get('backpack')->sendJsonResponseText('The form has missing required fields' . $form->getErrorsAsString(),
                     'error');
@@ -87,7 +90,7 @@ class CategoryController extends Controller
             throw new AccessDeniedException();
         }
 
-        return $this->get('backpack')->sendJsonResponseText('');
+        return $this->get('backpack')->sendJsonResponseText('', $responseStatus);
     }
 
     public function removeAction($category_id)

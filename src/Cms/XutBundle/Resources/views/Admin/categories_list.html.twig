@@ -21,23 +21,21 @@
                           action="{{ path('cms_category_update', {'category_id': form.category.id}) }}"
                           method="PUT" {{ form_enctype(form.formview) }}
                           role="form">
-                        {{ form_widget(form.formview.name, { 'attr': { 'class': 'category-name-edit form-control' }, 'id': '' } ) }}
+                        {{ form_widget(form.formview.name, { 'attr': { 'class': 'category-name-edit category-name form-control' }, 'id': '' } ) }}
                         {{ form_widget(form.formview._token, { 'attr': { 'class': 'category-edit-token' }, 'id': '' }) }}
                         <div class="button-action remove-action">Remove</div>
                     </form>
                 </div>
             {% endfor %}
         </div>
-        <script type="text/template" class="category-new-template">
-            <div>
-                <form action="{{ path('cms_category_new') }}"  method="post" {{ form_enctype(form_new) }}>
-                    {{ form_widget(form_new.name,
-                    { 'attr': { 'class': 'category-edit', 'placeholder' : 'Create New' }, 'id': '' } ) }}
-                    {{ form_widget(form_new._token) }}
-                    <div class="button-action">Save</div>
-                </form>
-            </div>
-        </script>
+        <div class="category-new-template" style="display: none">
+            <form action="{{ path('cms_category_new') }}"  method="post" role="form">
+                {{ form_widget(form_new.name,
+                { 'attr': { 'class': 'category-name-new category-name form-control', 'placeholder' : 'Create New' }, 'id': '' } ) }}
+                {{ form_widget(form_new._token, { 'attr': { 'class': 'category-new-token' }, 'id': '' }) }}
+                <div class="button-action" id="create-category-submit">Create</div>
+            </form>
+        </div>
     </div>
 {% endblock %}
 
@@ -56,7 +54,8 @@
             categoryEditForm = Backbone.View.extend({
                 events: {
                     'change .category-name-edit': 'saveAction',
-                    'click .remove-action': 'removeAction'
+                    'click .remove-action': 'removeAction',
+                    'click #create-category-submit': 'saveAction'
                 },
 
                 initialize: function(options) {
@@ -76,9 +75,12 @@
 
                 saveAction: function() {
                     console.log('the field has been edited'); // DEBUG
-                    this.categoryData.save({'name': this.template.find('.category-name-edit').val()}, {
+                    this.categoryData.save({'name': this.template.find('.category-name').val()}, {
                         success: function(model, response) {
-                            console.log(response) // DEBUG
+                            if (response.status == 'created') {
+                                /* TODO: append the new view instead of the page reloading */
+                                location.reload()
+                            }
                         }
                     })
                 },
@@ -99,7 +101,7 @@
 
             $(function() {
                 var categoriesViews = [];
-                var urlRoot = '{{ path('cms_category_create') }}';
+                var saveUrlRoot = '{{ path('cms_category_create') }}';
                 $.each($('.category-view-template'), function() {
                     var categoryId = $(this).find('form').data('category-id');
 
@@ -111,7 +113,7 @@
                         '_token': $(this).find('.category-edit-token').val()
                     });
 
-                    categoryData.urlRoot = urlRoot;
+                    categoryData.urlRoot = saveUrlRoot;
 
                     categoriesViews.push(new categoryEditForm({
                         el: $(this),
@@ -120,6 +122,18 @@
                     }));
 
                 });
+
+                var newCategoryData = new categoryDataModel({
+                    '_token' : $('.category-new-template').find('.category-new-token').val()
+                })
+
+                newCategoryData.urlRoot = saveUrlRoot;
+
+                var newCategoryView = new categoryEditForm({
+                    el: $('.category-new-template'),
+                    template: $('.category-new-template'),
+                    categoryData: newCategoryData
+                })
             });
         </script>
     {% endif %}
