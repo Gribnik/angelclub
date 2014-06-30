@@ -1,0 +1,194 @@
+/* Global styles */
+/* line 3, ../scss/screen.scss */
+body {
+  background-color: #000;
+  color: #FFF;
+}
+
+/* line 8, ../scss/screen.scss */
+.button-action {
+  cursor: pointer;
+  text-align: right;
+}
+
+/* line 13, ../scss/screen.scss */
+.content-wrapper {
+  margin-top: 30px;
+}
+
+/* line 17, ../scss/screen.scss */
+.foot-copyright {
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+/* line 22, ../scss/screen.scss */
+.container {
+  min-width: 970px;
+  width: 970px !important;
+}
+
+/* Header */
+/* line 29, ../scss/screen.scss */
+.header {
+  height: 190px;
+}
+/* line 32, ../scss/screen.scss */
+.header .head-titles {
+  width: 240px;
+}
+/* line 36, ../scss/screen.scss */
+.header .head-navigation {
+  width: auto;
+  margin-top: 80px;
+}
+/* line 40, ../scss/screen.scss */
+.header .head-navigation li {
+  height: 26px;
+  width: 130px;
+  margin: 2px 10px 0 0;
+  text-align: center;
+  border-top: 1px solid #999;
+}
+/* line 47, ../scss/screen.scss */
+.header .head-navigation li a {
+  color: #FFF;
+}
+/* line 50, ../scss/screen.scss */
+.header .head-navigation li a:hover {
+  background-color: transparent;
+  color: #999;
+}
+/* line 56, ../scss/screen.scss */
+.header .head-navigation li:hover {
+  border-top-width: 3px;
+  margin-top: 0;
+}
+/* line 61, ../scss/screen.scss */
+.header .head-navigation li.active {
+  height: 26px;
+  margin-top: 0;
+  border-top: 3px solid #FFD323;
+}
+/* line 66, ../scss/screen.scss */
+.header .head-navigation li.active a {
+  background-color: transparent;
+  color: #FFD323;
+}
+
+/* Gallery */
+/* line 77, ../scss/screen.scss */
+.gallery-wrapper {
+  min-width: 810px;
+  width: 810px;
+  margin-left: 40px;
+}
+
+/* line 85, ../scss/screen.scss */
+.gallery-image,
+.gallery-image img {
+  position: relative;
+  width: 400px;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+/* line 92, ../scss/screen.scss */
+.gallery-image .image-edit-wrapper {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* line 99, ../scss/screen.scss */
+.image-edit-container {
+  width: 350px;
+}
+
+/* line 104, ../scss/screen.scss */
+.image-edit-type td {
+  padding: 5px;
+}
+/* line 107, ../scss/screen.scss */
+.image-edit-type .image-description-edit {
+  width: 225px;
+  height: 60px;
+  border: 1px solid #CCC;
+}
+/* line 112, ../scss/screen.scss */
+.image-edit-type .image-tags-edit {
+  width: 225px;
+  border: 1px solid #CCC;
+}
+
+/* Gallery: lightbox */
+/* line 123, ../scss/screen.scss */
+.mfp-with-zoom .mfp-container, .mfp-with-zoom.mfp-bg {
+  opacity: 0.001;
+  -webkit-backface-visibility: hidden;
+  /* ideally, transition speed should match zoom duration */
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+/* line 134, ../scss/screen.scss */
+.mfp-with-zoom.mfp-ready .mfp-container {
+  opacity: 1;
+}
+/* line 138, ../scss/screen.scss */
+.mfp-with-zoom.mfp-ready.mfp-bg {
+  opacity: 0.8;
+}
+/* line 145, ../scss/screen.scss */
+.mfp-with-zoom.mfp-removing .mfp-container, .mfp-with-zoom.mfp-removing.mfp-bg {
+  opacity: 0;
+}
+
+/* line 152, ../scss/screen.scss */
+.mfp-bottom-bar .tags {
+  font-size: 12px;
+}
+/* line 155, ../scss/screen.scss */
+.mfp-bottom-bar .tags span {
+  cursor: pointer;
+  font-style: italic;
+}
+
+/* Admin */
+/* line 164, ../scss/screen.scss */
+.adminlogin-wrapper {
+  width: 235px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 20px 40px;
+}
+
+/* line 175, ../scss/screen.scss */
+#admin-toolbar {
+  height: 30px;
+  padding: 5px 0;
+  float: right;
+}
+/* line 180, ../scss/screen.scss */
+#admin-toolbar .btn-warning {
+  background-image: linear-gradient(to bottom, #ffd323 0%, #eb9316 100%);
+}
+
+/* Home page */
+/* line 188, ../scss/screen.scss */
+.home-banner-wrapper {
+  position: relative;
+}
+/* line 191, ../scss/screen.scss */
+.home-banner-wrapper .hb-image-excerpt {
+  position: absolute;
+  z-index: 30;
+  top: 30px;
+  left: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #222222;
+}

@@ -5,6 +5,17 @@ body {
     color: #FFF;
 }
 
+#admin-new-blogpost {
+    /*position: relative;*/
+}
+
+#post-new-wrapper {
+    position: absolute;
+    top: 0;
+    left: 30%;
+
+}
+
 input[type=text],
 textarea {
     border: 1px solid #CCC;

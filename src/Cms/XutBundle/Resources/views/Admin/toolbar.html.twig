@@ -1,13 +1,20 @@
 <div id="admin-toolbar">
-    <div id="admin-new-blogpost" class="admin-toolbar-item">
-        <a href="javascript:void(0);" id="blog-new">New Post</a>
-        <div id="post-new-wrapper"></div>
+    <div class="btn-group btn-group-xs">
+        {#<div id="admin-new-blogpost" class="admin-toolbar-item">#}
+            <button type="button" class="btn btn-warning" onclick="javascript:void(0);" id="blog-new">New Post</button>
+            <button type="button" class="btn btn-warning"
+                    onclick="javascript:void(0);" id="image-new">New Photos</button>
+            <button type="button" class="btn btn-warning"
+                    onclick="location.href = '{{ path('logout') }}'" id="image-new-new">Get Out</button>
+        {#</div>#}
+        {#<div id="admin-new-image" class="admin-toolbar-item">#}
+
+        {#</div>#}
+        {#<div class="admin-toolbar-item">#}
+            {#<a href="{{ path('logout') }}">Logout</a>#}
+        {#</div>#}
     </div>
-    <div id="admin-new-image" class="admin-toolbar-item">
-        <a href="javascript:void(0);" id="image-new">New Images</a>
-        <div id="image-new-wrapper" class="edit-popup"></div>
-    </div>
-    <div class="admin-toolbar-item">
-        <a href="{{ path('logout') }}">Logout</a>
-    </div>
+    <div id="post-new-wrapper"></div>
+    <div id="image-new-wrapper" class="edit-popup"></div>
 </div>
+<div style="clear: both"></div>
