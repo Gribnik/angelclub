@@ -16,14 +16,17 @@
         </div>
 
     {% endif %}
-    <div id="hb-slider">
-        <ul class="hb-slides">
-            {% for image in images %}
-                <li class="hb-slider-image">
-                    <img src="{{ image.getWebPath() }}" alt="" />
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="hb-image-excerpt">{{ banner.getContent() }}</div>
-    </div>
+
+    {% if images|length > 0 %}
+        <div id="hb-slider">
+            <ul class="hb-slides">
+                {% for image in images %}
+                    <li class="hb-slider-image">
+                        <img src="{{ image.getWebPath() }}" alt="" />
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="hb-image-excerpt">{{ banner.getContent() }}</div>
+        </div>
+    {% endif %}
 </div>
