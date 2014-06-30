@@ -1,20 +1,16 @@
 <div id="admin-toolbar">
-    <div class="btn-group btn-group-xs">
-        {#<div id="admin-new-blogpost" class="admin-toolbar-item">#}
-            <button type="button" class="btn btn-warning" onclick="javascript:void(0);" id="blog-new">New Post</button>
-            <button type="button" class="btn btn-warning"
-                    onclick="javascript:void(0);" id="image-new">New Photos</button>
-            <button type="button" class="btn btn-warning"
-                    onclick="location.href = '{{ path('logout') }}'" id="image-new-new">Get Out</button>
-        {#</div>#}
-        {#<div id="admin-new-image" class="admin-toolbar-item">#}
-
-        {#</div>#}
-        {#<div class="admin-toolbar-item">#}
-            {#<a href="{{ path('logout') }}">Logout</a>#}
-        {#</div>#}
+    <div class="admin-toolbar-item" id="admin-new-blogpost"
+       title="New Blog Post">
+        <span class="glyphicon glyphicon-pencil" id="blog-new"></span>
+        <div id="post-new-wrapper"></div>
     </div>
-    <div id="post-new-wrapper"></div>
-    <div id="image-new-wrapper" class="edit-popup"></div>
+    <div class="admin-toolbar-item" title="Upload Photos" id="admin-new-image">
+        <span class="glyphicon glyphicon-cloud-upload" id="image-new"></span>
+        <div id="image-new-wrapper" class="edit-popup"></div>
+    </div>
+    <div onclick="location.href = '{{ path('logout') }}'"
+       class="admin-toolbar-item" title="Get out of here">
+        <span class="glyphicon glyphicon-log-out" id="image-new"></span>
+    </div>
 </div>
 <div style="clear: both"></div>

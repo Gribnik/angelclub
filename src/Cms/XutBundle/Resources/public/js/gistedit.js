@@ -14,8 +14,8 @@ gistEditForm = Backbone.View.extend({
     events: {
         'click #blog-edit' : 'toggleForm',
         'click #blog-remove' : 'removeItem',
-        'click a#blog-new' : 'toggleForm',
-        'click a#image-new' : 'toggleForm',
+        'click #blog-new' : 'toggleForm',
+        'click #image-new' : 'toggleForm',
         'click div.image-edit' : 'toggleForm'
     },
 

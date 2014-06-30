@@ -24,6 +24,10 @@ body {
   width: 970px !important;
 }
 
+.actionlink {
+  color: #FFF;
+}
+
 /* Header */
 
 .header {
@@ -177,8 +181,10 @@ body {
   padding: 5px 0;
   float: right;
 
-  .btn-warning {
-    background-image: linear-gradient(to bottom,#FFD323 0,#eb9316 100%);
+  .admin-toolbar-item {
+    display: block;
+    float: left;
+    padding: 0 10px;
   }
 }
 

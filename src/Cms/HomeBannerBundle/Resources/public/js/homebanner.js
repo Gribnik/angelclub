@@ -8,7 +8,7 @@ HBPreview = Backbone.Model.extend();
 
 HbForm = Backbone.View.extend({
     events: {
-        'click a#hb-change-button' : 'toggleForm',
+        'click #hb-change-button' : 'toggleForm',
         'click #hb-preview-button' : 'previewChanges'
     },
 
@@ -41,7 +41,7 @@ HbForm = Backbone.View.extend({
     },
 
     loadForm: function() {
-        var formView = this; /* TODO: optimise it */
+        var formView = this;
         this.formModel.fetch({
             success: function(formModel) {
                 formView.loaded = true;

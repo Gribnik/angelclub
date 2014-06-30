@@ -1,5 +1,5 @@
 <script type="text/template" id="hb-form-template">
-    <a href="#" id="hb-change-button">Change</a>
+    <span title="Edit homepage banner" class="glyphicon glyphicon-cog" id="hb-change-button"></span>
     <form id="hb-form" action="{{ path('set_home_banner') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
         {{ form_row(form.name) }}
